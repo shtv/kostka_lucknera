@@ -93,19 +93,30 @@ sześcian klocka i tylko taki sześcian jest opisany przez element $cube$
 zawarty w $brick$ danego klocka.
 
 Sposób na zapis danego klocka, a dokładnie -- jego sześcianów, jest ściśle
-określony. Zapis klocka musi spełniać następujące warunki:
+określony. Do metody zapisu potrzebna będzie definicja wagi klocka. Wagą
+klocka nazywamy:
+\begin{equation}
+	w(k) = \sum_{i=1}^n \rho (s_i)
+\end{equation}
+gdzie:
+$k$ -- klocek,
+$n$ -- liczba sześcianów klocka,
+$s_i$ -- $i$--ty sześcian klocka,
+$\rho (s_i)$ -- metryka euklidesowa wektora pomieszczenia $i$--tego
+sześcianu.
+
+Zapis klocka musi spełniać następujące warunki:
 \begin{enumerate}
 	\item każdy sześcian klocka ma współrzędne nieujemne,
 	\item nie istnieje inny zapis klocka spełniającego warunek 1, którego
-		suma współrzędnych sześcianów jest mniejsza od sumy współrzędnych 
-		sześcianów danego,
+		waga jest mniejsza,
 	\item do zrobienia\ldots
 \end{enumerate}
 Ten zapis \textbf{gwarantuje}, że sprawdzenie, czy dwa klocki mają
 identyczny kształt, wymagać będzie jedynie sprawdzenia równości zbiorów
 sześcianów danych klocków. Przez identyczny kształt rozumiemy doprowadzenie
-operacjami rotacji i przemieszczania do pokrycia sześcianów pierwszego
-sześcianami drugiego i odwrotnie.
+operacjami rotacji i przemieszczania do wzajemnego pokrycia sześcianów
+obu klocków.
 
 \subsection{Sekwencja ruchów}
 \end{document}
