@@ -67,6 +67,42 @@ wyniku danego zadania sporządzonego przez zadany algorytm.
 \section{Struktury danych}
 
 \subsection{Zestaw klocków}
+Zestaw klocków jest daną wejściową naszego programu. Niniejszy rozdział
+dzieli się na dwie części.
+
+\subsubsection{Format XML}
+Zestaw klocków jest zapisywany w dokumencie XML, którego korzeniem jest
+$bricks$. W korzeniu występują jedynie elementy $brick$. Każdy element
+$brick$ jest opisem dokładnie jednego klocka. Każdy klocek należący do
+zestawu i tylko taki klocek jest opisany za pomocą elementu $brick$.
+Element $brick$ zawiera elementy $cube$. Każdy element $cube$ ma podane
+wartości trzech atrybutów: $x$, $y$ i $z$.
+
+Podobnie każdy klocek składa się
+z sześcianów, które są niepodzielne. Sześcianem jest najmniejszy możliwy
+klocek o długości krawędzi równej $1$. Z tego wynika, że krawędzie klocków
+mają wartości całkowite równe co najmniej $1$. Każdy sześcian danego
+klocka możemy zidentyfikować za pomocą trzech współrzędnych.
+
+Klocek jest
+umieszczany w układzie współrzędnych. Dzięki takiemu zabiegowi każde dwa
+różne sześciany danego klocka mają różne wektory pomieszczenia. Wektorem
+pomieszczenia sześcianu nazywamy wektor złożony z trzech współrzędnych
+określających położenie sześcianu względem początku układu. Każdy
+sześcian klocka i tylko taki sześcian jest opisany przez element $cube$
+zawarty w $brick$ danego klocka.
+
+Sposób na zapis danego klocka, a dokładnie -- jego sześcianów, jest ściśle
+określony. Zapis klocka musi spełniać następujące warunki:
+\begin{enumerate}
+	\item każdy sześcian klocka ma współrzędne nieujemne,
+	\item nie istnieje inny zapis klocka spełniającego warunek 1, którego
+		suma współrzędnych sześcianów jest mniejsza od sumy współrzędnych 
+		sześcianów danego,
+	\item do zrobienia\ldots
+\end{enumerate}
+Ten zapis gwarantuje, że sprawdzenie, czy dwa klocki mają identyczny
+kształt, wymagać będzie jedynie równości zbiorów sześcianów danych klocków.
 
 \subsection{Sekwencja ruchów}
 \end{document}
