@@ -138,5 +138,71 @@ sześcianów obu klocków. Jest to najszybsza i najwygodniejsza metoda
 porównania, czy klocki są identyczne. Przez identyczne należy rozumieć,
 że w rozwiązaniu klocek może zostać zastąpiony przez identyczny.
 
+\subsubsection{Struktura danych}
+Dane z dokumentu XML, czyli zestaw klocków, będą przechowywane w programie
+w postaci listy obiektów klasy $Brick$. Klasa $Brick$ będzie zawierała
+listę obiektów klasy $Cube$ odpowiadających sześcianom klocka z dokumentu
+XML z zachowaniem kolejności\footnote{patrz: koniec poprzedniego
+podrozdziału}.
+
+Kolejność klocków z dokumentu XML będzie zachowana w liście obiektów klasy
+$Brick$. Przy sekwencji ruchów będzie potrzebna identyfikacja klocków.
+Klockom przypisze się jako identyfikator numer na liście zaczynając od $1$.
+Jednak ten identyfikator nie jest potrzebny jako osobne pole w klasie
+$Brick$.
+
 \subsection{Sekwencja ruchów}
+Sama sekwencja ruchów jest opisana za pomocą ciągu elementów. Elementem
+nazywamy:
+\begin{equation}
+	e_i = (a_i,v,d,o)
+\end{equation}
+gdzie
+$e_i$ -- $i$--ty element w ciągu,
+$a_i$ -- indeks klocka użytego jako $i$--ty do konstrukcji sześcianu,
+$d$ -- kierunek dokładania klocka,
+$v$ -- wektor przemieszczenia klocka,
+$o$ -- macierz obrotu.
+Kierunkiem dokładania klocka może być $X$, $Y$ lub $Z$. Kierunek dokładania
+jest związany z osią układu współrzędnych w przestrzeni 3D. Dokładany
+klocek jest dokładany wzdłuż dodatniej półosi danej osi. Klocek zostaje
+zatrzymany w dwóch przypadkach, gdy:
+\begin{itemize}
+	\item dochodzi do zetknięcia z powierzchnią innego klocka i kolejne
+		przesunięcie o $1$ wzdłuż osi spowoduje najście na siebie co najmniej 
+		jednego sześcianu z powstającego prostopadłościanu i co najmniej
+		jednego sześcianu z dokładanego klocka,
+	\item dochodzi do zetknięcia z płaszczyzną dwóch pozostałych osi.
+\end{itemize}
+Punkt, od którego zaczynamy przesuwanie klocka w kierunku powstającego
+prostopadłościanu, nie jest istotny. Ważne jest jedynie przesunięcie
+klocka względem dwóch pozostałych osi. Takim przesunięciem jest wektor
+przemieszczenia, którego pierwsza współrzędna odpowiada przesunięciu
+względem osi występującej wcześniej w zadanej kolejności osi układu.
+Pozostała, druga współrzędna odpowiada przesunięciu względem pozostałej
+osi. Mając podany kierunek tj. wzdłuż której osi dokładamy, wiemy,
+jakim osiom odpowiadają dwie współrzędne wektora przemieszczenia klocka.
+
+Przy macierzy obrotu należy pamiętać, że obrót wokół osi może wynosić
+0 stopni, 90 stopni bądź wielokrotność 90 stopni.
+
+\subsubsection{Struktura sekwencji ruchu}
+Podaną wyżej definicję elementu przenosimy do klasy $Move$. Sekwencja
+ruchów jest listą obiektów klasy $Move$. Wszelkie składowe elementu
+odwzorujemy jako składowe klasy $Move$.
+
+\subsubsection{Format XML}
+Sekwencja ruchów jest zapisywana w dokumencie XML z korzeniem $moves$.
+Obiekt klasy $Move$ z listy jest zapisywany do elementu $move$. W korzeniu
+są jedynie zawarte te elementy $move$. Element $move$ zawiera po jednym
+elemencie:
+\begin{itemize}
+	\item $brick_id$ -- identyfikator klocka,
+	\item $vector$ -- wektor przemieszczenia klocka, gdzie jego współrzędne
+		są kolejno opisane przez atrybuty $x1$ i $x2$,
+	\item $d$ -- kierunek dokładania klocka, gdzie jedynym atrybutem
+		jest wartość ze zbioru $P = {X,Y,Z}$,
+	\item $o$ -- macierz obrotu opisana \ldots
+\end{itemize}
+
 \end{document}
