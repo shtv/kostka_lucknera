@@ -2,12 +2,15 @@
 
 \usepackage{polski}
 \usepackage[utf8]{inputenc}
-\usepackage{hyperref}
+\usepackage[pdfborder={0 0 0}]{hyperref}
 \usepackage{hyphenat}
 
 \hypersetup{
 	pdfinfo={
-	`Title = {aa}
+		Title = {Dokumentacja teoretyczna},
+		Subject = {Dokumentacja teoretyczna},
+		Author = {Paweł Baran, Andrzej Legucki},
+		Keywords = {kostka, dokumentacja, teoretyczna}
 	}
 }
 
@@ -32,4 +35,24 @@ Dokumentacja teoretyczna
 
 \maketitle
 
+\newpage
+
+\tableofcontents
+
+\newpage
+\section{Wstęp}
+Niniejsza dokumentacja powstała w ramach pierwszego etapu laboratoriów
+z~przedmiotu Teoria Algorytmów i Obliczeń. W niniejszym dokumencie
+przedstawiamy opis algorytmu dokładnego oraz opisy dwu algorytmów
+aproksymujących do zadania. Problemem jest ułożenie największego
+pełnego prostopadłościanu z klocków. Pojedynczym zadaniem problemu jest
+ułożenie pełnego prostopadłościanu z zadanego zestawu klocków.
+Rozwiązaniem zadania jest sekwencja ruchów klocków należących do zestawu
+z zadania.
+
+Oprócz algorytmów przedstawione zostały opisy struktur danych potrzebnych
+do funkcjonowania podanych algorytmów. Opis struktur danych ułatwi ich
+obsługę w zakresie zapisu zestawu klocków i zapisu sekwencji ruchów.
+Pierwszy zapis służy do zapisania danych wejściowych, drugi -- do zapisania
+wyniku danego zadania sporządzonego przez zadany algorytm.
 \end{document}
