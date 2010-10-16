@@ -93,8 +93,8 @@ sześcian klocka i tylko taki sześcian jest opisany przez element $cube$
 zawarty w $brick$ danego klocka.
 
 Sposób na zapis danego klocka, a dokładnie -- jego sześcianów, jest ściśle
-określony. Do metody zapisu potrzebna będzie definicja wagi klocka. Wagą
-klocka nazywamy:
+określony. Do metody zapisu potrzebna będzie definicja wagi zapisu klocka.
+Wagą zapisu klocka nazywamy wartość:
 \begin{equation}
 	w(k) = \sum_{i=1}^n \rho (s_i)
 \end{equation}
@@ -102,21 +102,41 @@ gdzie:
 $k$ -- klocek,
 $n$ -- liczba sześcianów klocka,
 $s_i$ -- $i$--ty sześcian klocka,
-$\rho (s_i)$ -- metryka euklidesowa wektora pomieszczenia $i$--tego
-sześcianu.
+$\rho (s)$ -- metryka euklidesowa wektora pomieszczenia sześcianu $s$.
+Przyda się również definicja wagi zapisu klocka względem współrzędnej
+$X_i$:
+\begin{equation}
+	w_i(k) = \sum_{j=1}^n s_j^i
+\end{equation}
+gdzie:
+$k$ -- klocek,
+$n$ -- liczba sześcianów klocka,
+$s_j^i$ -- $i$--ta współrzędna $j$--tego sześcianu klocka.
 
 Zapis klocka musi spełniać następujące warunki:
 \begin{enumerate}
 	\item każdy sześcian klocka ma współrzędne nieujemne,
 	\item nie istnieje inny zapis klocka spełniającego warunek 1, którego
 		waga jest mniejsza,
-	\item do zrobienia\ldots
+	\item waga zapisu względem współrzędnej $X_3=Z$ jest nie mniejsza niż 
+		względem współrzędnej $X_2=Y$,
+	\item waga zapisu względem współrzędnej $X_2=Z$ jest nie mniejsza niż 
+		względem współrzędnej $X_1=Y$,
+	\item sześciany mają ustalony porządek:
+		\begin{enumerate}
+			\item sześcian występujący przed innym w porządku ma nie wyższą
+				pierwszą współrzędną,
+			\item sześcian występujący przed innym o tej samej wartości
+				pierwszej współrzędnej ma nie wyższą drugą współrzędną,
+			\item sześcian występujący przed innym o tych samych wartościach
+				pierwszej i drugiej współrzędnej ma niższą trzecią współrzędną.
+		\end{enumerate}
 \end{enumerate}
 Ten zapis \textbf{gwarantuje}, że sprawdzenie, czy dwa klocki mają
-identyczny kształt, wymagać będzie jedynie sprawdzenia równości zbiorów
-sześcianów danych klocków. Przez identyczny kształt rozumiemy doprowadzenie
-operacjami rotacji i przemieszczania do wzajemnego pokrycia sześcianów
-obu klocków.
+identyczny kształt, sprowadza się do porównania współrzędnych kolejnych
+sześcianów obu klocków. Jest to najszybsza i najwygodniejsza metoda
+porównania, czy klocki są identyczne. Przez identyczne należy rozumieć,
+że w rozwiązaniu klocek może zostać zastąpiony przez identyczny.
 
 \subsection{Sekwencja ruchów}
 \end{document}
