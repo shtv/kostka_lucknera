@@ -4,6 +4,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[pdfborder={0 0 0}]{hyperref}
 \usepackage{hyphenat}
+\usepackage{indentfirst}
 
 \hypersetup{
 	pdfinfo={
@@ -61,6 +62,43 @@ wyniku danego zadania sporządzonego przez zadany algorytm.
 \section{Algorytmy aproksymacyjne}
 
 \subsection{Algorytm klonowania}
+Pierwszy z~algorytmów aproksymacyjnych jest autorstwa Pawła Baran.
+W~niniejszym podrozdziale zostanie podany jego opis, pseudokod, koszty oraz
+podsumowanie, w~którym przedstawione zostaną wady i~zalety algorytmu.
+
+Algorytm składa się z~kilku kroków:
+\begin{enumerate}
+	\item grupowanie klocków,
+	\item sprawdzenie kilku wybranych proporcji,
+	\item wybranie optymalnego i~klonowanie.
+\end{enumerate}
+
+Algorytm stara się ułożyć prostopadłościan z~klocków, które mają swoje
+kopie. Jeśli nie jest możliwe ułożenie z~klocków powtarzających się,
+algorytm wykorzystuje wszystkie dostępne klocki, czyli w~najgorszym
+przypadku zachowuje się jak algorytm dokładny, nie zmieniając kosztów
+obliczeń w~stosunku do niego.
+
+\subsubsection{Etap 1. Grupowanie klocków}
+W~pierwszym etapie następuje stworzenie podzbiorów klocków zestawu, w
+których następnie będą zamieszczane klocki z~identycznym kształtem.
+
+Z~zestawu bierzemy kolejno klocki. Każdy wzięty klocek porównujemy
+z~przedstawicielami różnych grup (z~każdej grupy po jednym). Dzięki
+ustalonemu wymogowi poprawności zapisu klocka na wejściu (w~rozdziale
+\ref{sec:zapis}) porównanie jest wygodne i~intuicyjne. Jeśli dany klocek
+jest identyczny z~reprezentantem pewnej grupy, to jest zapisywany do niej.
+Jeśli nie jest identyczny z~żadnym reprezentantem, to jest tworzona nowa
+grupa i~on staje się jej reprezentantem (przedstawicielem). Etap się
+kończy, gdy wszystkie klocki będą przypisane do grup. Najprostszą
+i~najbardziej intuicyjną strukturą do zapisania takich powiązań będzie
+tablica tablic identyfikatorów\footnote{tu: liczb całkowitych} klocków.
+Złożoność obliczeniowa jest równa $O(n^2)$, gdzie $n$ jest proporcjonalna
+do liczby klocków w~zestawie.
+
+\subsubsection{Etap 2. Sprawdzenie kilku wybranych proporcji}
+Mając pogrupowane klocki, będziemy dobierać określone proporcje z~grup
+najbardziej licznych. 
 
 \subsection{Algorytm Andrzeja}
 
@@ -70,7 +108,7 @@ wyniku danego zadania sporządzonego przez zadany algorytm.
 Zestaw klocków jest daną wejściową naszego programu. Niniejszy rozdział
 dzieli się na dwie części.
 
-\subsubsection{Format XML}
+\subsubsection{Format XML}\label{sec:zapis}
 Zestaw klocków jest zapisywany w dokumencie XML, którego korzeniem jest
 $bricks$. W korzeniu występują jedynie elementy $brick$. Każdy element
 $brick$ jest opisem dokładnie jednego klocka. Każdy klocek należący do
