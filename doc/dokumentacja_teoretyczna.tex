@@ -97,8 +97,39 @@ Złożoność obliczeniowa jest równa $O(n^2)$, gdzie $n$ jest proporcjonalna
 do liczby klocków w~zestawie.
 
 \subsubsection{Etap 2. Sprawdzenie kilku wybranych proporcji}
-Mając pogrupowane klocki, będziemy dobierać określone proporcje z~grup
-najbardziej licznych. 
+Mając pogrupowane klocki, dobieramy określone proporcje z~grup
+najbardziej licznych. Proporcją nazywamy podzbiór zestawu klocków.
+Pierwszą proporcją jest podzbiór, w~którym znajduje się po jednym
+z~klocków z~grup zawierających co najmniej 2 elementy. Jeśli z~danego
+,,podzestawu'' uda się ułożyć prostopadłościan, to jego rozwiązanie
+wraz z~wynikiem jest zapisywane w~specjalnej tablicy. Następnie określana
+jest kolejna proporcja. 1. sposób dobierania kolejnych proporcji przebiega
+poprzez dodanie jednego elementu z~grupy, w~której jest największa
+nadwyżka. Nadwyżkę definiujemy jako liczbę niewykorzystanych klocków danej
+grupy przy klonowaniu. Chociaż klonowanie będzie dopiero w~następnym
+kroku, to nie jest ono potrzebne do wyliczenia nadwyżki. Jeśli największa
+nadwyżka występuje w~kilku grupach, to klocek jest wybierany
+z~najliczniejszej grupy. Jeśli najliczniejszych grup jest kilka, to
+z~pierwszej z~nich. 2. sposobem jest odrzucenie grupy najmniej licznej.
+Jeśli jest ich kilka, to pierwszej z~nich. Po odrzuceniu następuje pobranie
+z~każdej nieodrzuconej grupy po 1 elemencie, czyli zaczęcie na nowo, ale
+bez klocków z~odrzuconej grupy.
+
+2. sposób jest wybierany, gdy co najmniej
+$90\%$ klocków z~najliczniejszej grupy nie jest wykorzystywana.
+Liczba wykorzystanych klocków z~danej grupy jest zdefiniowana jako iloczyn
+liczby klocków tej grupy z~proporcji i~liczby kopii proporcji (włącznie
+z~daną proporcją). Kopią jest wykorzystanie klocków z~danych grup z~taką
+samą proporcją jak wzorcowa przy wykorzystaniu klocków nieużytych. 
+
+Wyjaśnione zostało pojęcie ,,wybrane'' w~nazwie etapu. Słowo ,,kilka''
+należy interpretować jako liczbę 10. Czyli w~niniejszym etapie wybieramy
+10 etapów. Przedstawione sposoby mówią o~jak najmniej licznych podzbiorach,
+z~których ułożenie prostopadłościanu jest najszybsze, zakładając, że się
+da ułożyć z~nich prostopadłościan.
+
+\subsubsection{Etap 3. Wybranie optymalnego i~klonowanie}
+Dzięki cesze podanej pod koniec poprzedniego\ldots
 
 \subsection{Algorytm Andrzeja}
 
