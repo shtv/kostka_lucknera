@@ -58,6 +58,18 @@ Pierwszy zapis służy do zapisania danych wejściowych, drugi -- do zapisania
 wyniku danego zadania sporządzonego przez zadany algorytm.
 
 \section{Algorytm dokładny}
+\subsection{Przygotowanie danych}
+Przed rozpoczęciem działania algorytmu wczytujemy klocki z pliku i tworzymy listę tablic, 
+gdzie każda tablica zawiera wszystkie 24 możliwe pozycje klocka. Sekwencja ruchów jest pusta.
+\subsection{Algorytm}
+
+\subsection{Złożoność}
+Mamy drzewo T, którego korzeniem jest zbiór pusty. W węzłach drzewa znajdują się opisy ruchów.
+Potomkami węzła są opisy ruchów wykonywanych przez powyższy algorytm dla układu klocków utworzonego 
+przez sekwencję ruchów będącą ścieżką od korzenia do rozpatrywanego węzła. 
+Ponieważ zawsze szukamy optymalnego rozwiązania zawsze musimy sprawdzić wszystkie węzły drzewa T.
+Co oznacza, że złożoność pesymistyczna i średnia wynoszą $O(n^n)$.
+
 
 \section{Algorytmy aproksymacyjne}
 
@@ -184,7 +196,7 @@ $s_j^i$ -- $i$--ta współrzędna $j$--tego sześcianu klocka.
 
 Zapis klocka musi spełniać następujące warunki:
 \begin{enumerate}
-	\item każdy sześcian klocka ma współrzędne nieujemne,
+	\item każdy sześcian klocka ma współrzędne całkowite nieujemne,
 	\item nie istnieje inny zapis klocka spełniającego warunek 1, którego
 		waga jest mniejsza,
 	\item waga zapisu względem współrzędnej $X_3=Z$ jest nie mniejsza niż 
