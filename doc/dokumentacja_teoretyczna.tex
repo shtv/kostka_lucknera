@@ -136,12 +136,49 @@ samą proporcją jak wzorcowa przy wykorzystaniu klocków nieużytych.
 
 Wyjaśnione zostało pojęcie ,,wybrane'' w~nazwie etapu. Słowo ,,kilka''
 należy interpretować jako liczbę 10. Czyli w~niniejszym etapie wybieramy
-10 etapów. Przedstawione sposoby mówią o~jak najmniej licznych podzbiorach,
-z~których ułożenie prostopadłościanu jest najszybsze, zakładając, że się
-da ułożyć z~nich prostopadłościan.
+10 proporcji. Przedstawione sposoby mówią o~jak najmniej licznych
+podzbiorach, z~których ułożenie prostopadłościanu jest najszybsze,
+zakładając, że się da ułożyć z~nich prostopadłościan.
 
 \subsubsection{Etap 3. Wybranie optymalnego i~klonowanie}
-Dzięki cesze podanej pod koniec poprzedniego\ldots
+Ostatni etap jest jednocześnie najważniejszym punktem całego algorytmu.
+Wyjaśnia sens działania algorytmu. Poprzez rozwiązania z~poprzedniego
+punktu tworzymy kolejne prostopadłościany z~pozostałych klocków danych
+grup. Nie musimy używać już algorytmu szukania prostopadłościanu, a~jedynie
+kopiujemy ruchy przy powstawaniu wzorcowego prostopadłościanu. Te ,,klony''
+są następnie dołączane do istniejącego prostopadłościanu.
+
+W~niniejszym etapie wykorzystujemy proporcje z~10 wybranych, które dały
+nam prostopadłościan. Może nie być ich w~ogóle i~wtedy algorytm nie
+znajduje żadnego rozwiązania. Przy każdej proporcji dającej rozwiązanie
+następuje klonowanie. Samą sekwencję ruchów przy danej proporcji kopiujemy
+i~poprawiamy jego przesunięcie wzdłuż pewnej osi. Wybór osi w~naszym
+przypadku jest istotny, ponieważ mamy ograniczenie górne najdłuższej
+krawędzi prostopadłościanu, którym jest długość najdłuższej krawędzi
+najdłuższego klocka. To ograniczenie narzuca sposób ,,dokładania''
+kolejnych klonów do powstającego prostopadłościanu. Czyli dokładanie nie
+może się odbywać wyłącznie poprzez dokładanie wzdłuż jednej osi. Jeśli
+dostawiając kolejne klony nie przekraczamy ograniczenia, to samo dokładanie
+może się odbyć wzdłuż jednej osi.
+
+\subsubsection{Koszty działania algorytmu}
+Algorytm działa bardzo dobrze tzn. jego koszt jest niski w~porównaniu
+z~innymi algorytmami, gdy mamy wiele klocków ($n$), a~grup klocków
+jest niewiele ($m$). Najlepsze warunki dla działania algorytmu są wtedy,
+gdy $n$ jest nieporównywalnie większe od $m$ ($n>>m$). Prostopadłościany
+układamy z~klocków, których liczność jest zależna od $m$, a~nie od $n$.
+Gdy $m$ jest małe (w~stosunku do $n$), to w~algorytmie dokładnym, który
+wykorzystujemy przy budowie prostopadłościanu dla danej proporcji,
+zastępujemy $n$ liczbą $m$. Jest to zdecydowanie obniżenie kosztów
+działania algorytmu. Ta część mieści się w~etapie 2. Koszt etapu 3 czyli
+klonowanie jest mniejszy od budowy prostopadłościanu. Samo kopiowanie
+sekwencji ruchów przebiega liniowo.
+
+,,Krzywdzące'' jest ograniczenie najdłuższej krawędzi rozwiązania, toteż
+algorytm nie będzie mógł być maksymalnie wykorzystany przy takich
+warunkach. Również w~przypadkach, gdy $m$ jest porównywalne z~$n$,
+algorytm traci swoje zastosowanie. Jednak podobne przypadki można znaleźć
+dla innych algorytmów aproksymacyjnych.
 
 \subsection{Algorytm Andrzeja}
 
