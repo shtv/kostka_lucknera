@@ -59,16 +59,52 @@ wyniku danego zadania sporządzonego przez zadany algorytm.
 
 \section{Algorytm dokładny}
 \subsection{Przygotowanie danych}
-Przed rozpoczęciem działania algorytmu wczytujemy klocki z pliku i tworzymy listę tablic, 
-gdzie każda tablica zawiera wszystkie 24 możliwe pozycje klocka. Sekwencja ruchów jest pusta.
+Przed rozpoczęciem działania algorytmu wczytujemy klocki z pliku i tworzymy listę \textit{BrickGroupList} obiektów
+\textit{BrickGroup}.Obiekt \textit{BrickGroup} zawiera tablicę ze wszystkimi 24 możliwymi orientacjami
+klocka, indeks ostatnio rozważanego klocka zainiciowany wartością $-1$ oraz zmienne do zapamiętania przesunięcia.
+Lista ruchów jest pusta. Dodatkowo wyszukujemy klocek o największej długości. Odbywa się to poprzez znalezienie
+dla każdego klocka sześcianu o największej dowolnej współrzędnej i  wybraniu z wyznaczonych wartości największej. 
 \subsection{Algorytm}
+\subsubsection{Generowanie sekwencji ruchów}
+Sekwencja ruchów jest generowana przy pomocy listy \textit{BrickGroupList}. Tworzymy iterator q wskazujący na pierwszy
+element listy. Sekwencja ruchów jest opisana przez fragment listy od początku do aktualnej pozycji iteratora q.
+Iterator przesuwamy w następujący sposób:
+\begin{itemize}
+ \item Po przesunięciu iteratora do przodu (zainiciowanie iteratora również uważamy za przesunięcie iteratora do przodu)
+generujemy pierwsze możliwe dopasowanie klocka w pierwszej orientacji, a następnie
+wykonujemy sprawdzenie aktualnej sekwencji. Jeżeli możemy przesuwamy iterator dalej, w przeciwnym wypadku generujemy kolejne
+dopasowanie dla klocka wskazywanego aktualnie przez iterator q i sprawdzamy sekwencję. Postępujemy tak aż sprawdzimy
+wszystkie dopasowania dla wszystkich orientacji po czym cofamy iterator.
+ \item Po cofnięciu iteratora generujemy kolejne dopasowanie klocka, sprawdzamy sekwencję i przesuwamy iterator do przodu.
+ Jeżeli wygenerujemy wszystkie dopasowania dla danej orientacji przechodzimy do pierwszego dopasowania dla kolejnej orientacji.
+ Jeżeli nie możemy wygenerować kolejnego dopasowania (osiągneliśmy ostatnie dopasowanie dla ostatniej orientacji), to 
+ cofamy iterator. Jeżeli nie możemy cofnąć iteratora kończymy algorytm.
+ \item Sprawdzenie sekwencji zwraca nam informację czy dana sekwencja opisuje bryłę o najdłuższej krawędzi większej niż
+długość najdłuższego klocka. Jeżeli tak jest to w powyższych punkatch uznajemy, że nie możemy przesunąc iteratora dalej.
+Jeżeli dostaniemy informację, że dana sekwencja opisuje prostopadłościan to zapamiętujemy ją.
+ \end{itemize}
+Wykonując powyższe ruchy znajdziemy wszystkie poprawne prostopadłościany. Za rozwiązanie przyjumujemy prostopadłościan o
+największej objętości.
+\subsubsection{Generowanie dopasowania klocka}
+Możliwe dopasowania klocka generujemy próbując dołożyć klocek z trzech wzajemnie prostopadłych kierunków. Rozpatrujemy
+tylko takie pozycje klocka, w których rzut  klocka na płaszczyznę prostopadłą do kierunku dokładania ma przynajmniej 
+jeden kwadrat wspólny z rzutem bryły na tę samą płaszczyznę. Klocek dokładamy w sposób systematyczny i uporządkowany.
+\subsubsection{Sprawdzanie sekwencji}
+Sprawdzenie sekwencji polega na weryfikacji, czy otrzymaliśmy poprawny prostopadłościan. Weryfikacji dokonujemy
+poprzez znalezienie najmniejszego prostopadłościanu zawierającego bryłę i sprawdzeniu bryła go wypełnia.
+ W wyniku sprawdzenia możemy otrzymać jedną z trzech informacji:
+\begin{itemize}
+ \item bryła jest prostopadłościanem
+ \item bryła nie jest prostopadłościanem i nie spełnia warunków zadania
+ \item bryla nie jest prostopadłościanem i spełnia warunki zadania.
+\end{itemize}
 
 \subsection{Złożoność}
 Mamy drzewo T, którego korzeniem jest zbiór pusty. W węzłach drzewa znajdują się opisy ruchów.
 Potomkami węzła są opisy ruchów wykonywanych przez powyższy algorytm dla układu klocków utworzonego 
 przez sekwencję ruchów będącą ścieżką od korzenia do rozpatrywanego węzła. 
-Ponieważ zawsze szukamy optymalnego rozwiązania zawsze musimy sprawdzić wszystkie węzły drzewa T.
-Co oznacza, że złożoność pesymistyczna i średnia wynoszą $O(n^n)$.
+W przypadku pesymistycznym musimy przejrzeć całe drzewo, czyli złożoność pesymistyczna wynosi $O(n^{n+1})$.
+W przypadku średnim drzewo nie zawsze jest pełne co jednak nie zmienia zmniejsza złożoności. 
 
 
 \section{Algorytmy aproksymacyjne}
@@ -143,7 +179,16 @@ da ułożyć z~nich prostopadłościan.
 \subsubsection{Etap 3. Wybranie optymalnego i~klonowanie}
 Dzięki cesze podanej pod koniec poprzedniego\ldots
 
-\subsection{Algorytm Andrzeja}
+\subsection{Algorytm aproksymacyjny II}
+\subsubsection{Opis algorytmu}
+Algorytm działa podobnie jak algorytm dokładny. Różni się tym, że nie rozpatruje za każdym razem wszystkich
+możliwych dopasowań dla każdej orientacji tylko wybiera  $C$ $(C=const > 1)$ najlepszych par (orientacja, dopasowanie).
+Tylko wybrane dopasowania są brane pod uwagę przy budowaniu sekwencji ruchów. Wybór następuje na podstawie funkcji 
+oceny $f: B \rightarrow R$, gdzie B jest to zbiór brył. Dla danej bryły wartością funkcji $f(b)$ jest stosunek objętości
+bryły $b$ (wyrażony w jednostkowych sześcianach) do objętości najmniejszego prostopadłościanu zawierającego bryłę $b$.
+\subsubsection{Złożoność}
+Ponieważ ograniczamy drzewo T z algorytmu dokładnego, tak że każdy węzeł ma co najwyżej $C$ potomków, to 
+złożoność pesysmistyczna wynosi: $O(C^n)$. Tyle samo wynosi złożoność średnia.
 
 \section{Struktury danych}
 
