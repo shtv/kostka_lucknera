@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<moves>
+	<move brickId="1" d="X">
+		<vector x1="0" x2="0"/>
+		<rvector x="0" y="0" z="0"/>
+	</move>
+	<move brickId="2" d="Y">
+		<vector x1="-1" x2="0"/>
+		<rvector x="0" y="90" z="0"/>
+	</move>
+</moves>

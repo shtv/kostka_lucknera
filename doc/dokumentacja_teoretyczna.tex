@@ -5,6 +5,7 @@
 \usepackage[pdfborder={0 0 0}]{hyperref}
 \usepackage{hyphenat}
 \usepackage{indentfirst}
+\usepackage{listings}
 
 \hypersetup{
 	pdfinfo={
@@ -13,6 +14,14 @@
 		Author = {Paweł Baran, Andrzej Legucki},
 		Keywords = {kostka, dokumentacja, teoretyczna}
 	}
+}
+
+\lstset{
+language=XML,
+basicstyle=\footnotesize\ttfamily,
+frame=single,
+numberstyle=\footnotesize,
+numbers=left
 }
 
 \title{
@@ -194,7 +203,7 @@ znajduje żadnego rozwiązania. Przy każdej proporcji dającej rozwiązanie
 następuje klonowanie. Samą sekwencję ruchów przy danej proporcji kopiujemy
 i~poprawiamy jego przesunięcie wzdłuż pewnej osi. Wybór osi w~naszym
 przypadku jest istotny, ponieważ mamy ograniczenie górne najdłuższej
-krawędzi prostopadłościanu, którym jest długość najdłuższej krawędzi
+krawędzi prostopadłościanu, którym jest długość
 najdłuższego klocka. To ograniczenie narzuca sposób ,,dokładania''
 kolejnych klonów do powstającego prostopadłościanu. Czyli dokładanie nie
 może się odbywać wyłącznie poprzez dokładanie wzdłuż jednej osi. Jeśli
@@ -274,12 +283,12 @@ $\rho (s)$ -- metryka euklidesowa wektora pomieszczenia sześcianu $s$.
 Przyda się również definicja wagi zapisu klocka względem współrzędnej
 $X_i$:
 \begin{equation}
-	w_i(k) = \sum_{j=1}^n s_j^i
+	w_i(k) = \sum_{j=1}^n \rho_i(s_j)
 \end{equation}
 gdzie:
 $k$ -- klocek,
 $n$ -- liczba sześcianów klocka,
-$s_j^i$ -- $i$--ta współrzędna $j$--tego sześcianu klocka.
+$\rho_i (s)$ -- odległość w~metryce euklidesowej sześcianu $s$ od osi $X_i$.
 
 Zapis klocka musi spełniać następujące warunki:
 \begin{enumerate}
@@ -289,7 +298,7 @@ Zapis klocka musi spełniać następujące warunki:
 	\item waga zapisu względem współrzędnej $X_3=Z$ jest nie mniejsza niż 
 		względem współrzędnej $X_2=Y$,
 	\item waga zapisu względem współrzędnej $X_2=Z$ jest nie mniejsza niż 
-		względem współrzędnej $X_1=Y$,
+		względem współrzędnej $X_1=X$,
 	\item sześciany mają ustalony porządek:
 		\begin{enumerate}
 			\item sześcian występujący przed innym w porządku ma nie wyższą
@@ -305,6 +314,9 @@ identyczny kształt, sprowadza się do porównania współrzędnych kolejnych
 sześcianów obu klocków. Jest to najszybsza i najwygodniejsza metoda
 porównania, czy klocki są identyczne. Przez identyczne należy rozumieć,
 że w rozwiązaniu klocek może zostać zastąpiony przez identyczny.
+
+\lstinputlisting[caption={Przykład dokumentu XML dla zestawu dwu klocków}]
+{bricks.xml}
 
 \subsubsection{Struktura danych}
 Dane z dokumentu XML, czyli zestaw klocków, będą przechowywane w programie
@@ -323,14 +335,14 @@ $Brick$.
 Sama sekwencja ruchów jest opisana za pomocą ciągu elementów. Elementem
 nazywamy:
 \begin{equation}
-	e_i = (a_i,v,d,o)
+	e_i = (a_i,v,d,r)
 \end{equation}
 gdzie
 $e_i$ -- $i$--ty element w ciągu,
 $a_i$ -- indeks klocka użytego jako $i$--ty do konstrukcji sześcianu,
 $d$ -- kierunek dokładania klocka,
 $v$ -- wektor przemieszczenia klocka,
-$o$ -- macierz obrotu.
+$r$ -- wektor obrotu.
 Kierunkiem dokładania klocka może być $X$, $Y$ lub $Z$. Kierunek dokładania
 jest związany z osią układu współrzędnych w przestrzeni 3D. Dokładany
 klocek jest dokładany wzdłuż dodatniej półosi danej osi. Klocek zostaje
@@ -351,8 +363,10 @@ Pozostała, druga współrzędna odpowiada przesunięciu względem pozostałej
 osi. Mając podany kierunek tj. wzdłuż której osi dokładamy, wiemy,
 jakim osiom odpowiadają dwie współrzędne wektora przemieszczenia klocka.
 
-Przy macierzy obrotu należy pamiętać, że obrót wokół osi może wynosić
-0 stopni, 90 stopni bądź wielokrotność 90 stopni.
+Przy wektorze obrotu należy pamiętać, że obrót wokół osi może wynosić
+0 stopni, 90 stopni, 180 stopni lub 270 stopni. Obroty są dokonywane
+wokół trzech osi. $i$--ta współrzędna wektora odpowiada obrotowi klocka
+wokół $i$--tej osi.
 
 \subsubsection{Struktura sekwencji ruchu}
 Podaną wyżej definicję elementu przenosimy do klasy $Move$. Sekwencja
@@ -362,15 +376,17 @@ odwzorujemy jako składowe klasy $Move$.
 \subsubsection{Format XML}
 Sekwencja ruchów jest zapisywana w dokumencie XML z korzeniem $moves$.
 Obiekt klasy $Move$ z listy jest zapisywany do elementu $move$. W korzeniu
-są jedynie zawarte te elementy $move$. Element $move$ zawiera po jednym
-elemencie:
+są jedynie zawarte te elementy $move$. Element $move$ zawiera:
 \begin{itemize}
-	\item $brick_id$ -- identyfikator klocka,
+	\item $brickId$ -- identyfikator klocka (atrybut),
 	\item $vector$ -- wektor przemieszczenia klocka, gdzie jego współrzędne
-		są kolejno opisane przez atrybuty $x1$ i $x2$,
-	\item $d$ -- kierunek dokładania klocka, gdzie jedynym atrybutem
-		jest wartość ze zbioru $P = {X,Y,Z}$,
-	\item $o$ -- macierz obrotu.
+		są kolejno opisane przez atrybuty $x1$ i $x2$ (element),
+	\item $d$ -- kierunek dokładania klocka, gdzie jedynym elementem 
+		jest wartość ze zbioru $P = {X,Y,Z}$ (atrybut),
+	\item $rvector$ -- wektor obrotu (element).
 \end{itemize}
+
+\lstinputlisting[caption={Przykład dokumentu XML dla sekwencji ruchów}]
+{moves.xml}
 
 \end{document}
