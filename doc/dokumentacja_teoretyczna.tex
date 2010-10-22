@@ -73,11 +73,13 @@ Przed rozpoczęciem działania algorytmu wczytujemy klocki z pliku i tworzymy li
 \textit{BrickGroup}.Obiekt \textit{BrickGroup} zawiera tablicę ze wszystkimi 24 możliwymi orientacjami
 klocka, indeks ostatnio rozważanego klocka zainiciowany wartością $-1$ oraz zmienne do zapamiętania przesunięcia.
 Lista ruchów jest pusta. Dodatkowo wyszukujemy klocek o największej długości. Odbywa się to poprzez znalezienie
-dla każdego klocka sześcianu o największej dowolnej współrzędnej i wybraniu z wyznaczonych wartości największej.
+dla każdego klocka sześcianu jednostkowego o największej dowolnej współrzędnej i wybraniu z wyznaczonych wartości
+największej.
 \subsection{Algorytm}
 \subsubsection{Generowanie sekwencji ruchów}
 Generujemy wszystkie możliwe permutacje listy klocków. Każdej permutacji odpowiada jedna lista \textit{BrickGroupList},
-przy pomocy której generujemy sekwencję ruchów. Tworzymy iterator q wskazujący na pierwszy element listy. 
+przy pomocy której generujemy sekwencję ruchów. Wyznaczamy najdłuszy wspólny prefiks permutacji obecnej i poprzedniej, 
+a następnie tworzymy iterator q wskazujący na pierwszy element za znalezionym prefiksem.
 Sekwencja ruchów jest opisana przez fragment listy od początku do aktualnej pozycji iteratora q.
 Iterator przesuwamy w następujący sposób:
 \begin{itemize}
@@ -89,7 +91,8 @@ wszystkie dopasowania dla wszystkich orientacji po czym cofamy iterator.
  \item Po cofnięciu iteratora generujemy kolejne dopasowanie klocka, sprawdzamy sekwencję i przesuwamy iterator do przodu.
  Jeżeli wygenerujemy wszystkie dopasowania dla danej orientacji przechodzimy do pierwszego dopasowania dla kolejnej orientacji.
  Jeżeli nie możemy wygenerować kolejnego dopasowania (osiągneliśmy ostatnie dopasowanie dla ostatniej orientacji), to 
- cofamy iterator. Jeżeli nie możemy cofnąć iteratora kończymy algorytm.
+ cofamy iterator. Jeżeli nie możemy cofnąć iteratora (wskazuje na pierwszy element lub po cofnięciu wskazuje na ostatni element prfiksu)
+ to przechodzimy do następnej permutacji.
  \item Sprawdzenie sekwencji zwraca nam informację czy dana sekwencja opisuje bryłę o najdłuższej krawędzi większej niż
 długość najdłuższego klocka. Jeżeli tak jest to w powyższych punkatch uznajemy, że nie możemy przesunąc iteratora dalej.
 Jeżeli dostaniemy informację, że dana sekwencja opisuje prostopadłościan to zapamiętujemy ją.
@@ -102,7 +105,7 @@ tylko takie pozycje klocka, w których rzut  klocka na płaszczyznę prostopadł
 jeden kwadrat wspólny z rzutem bryły na tę samą płaszczyznę. Dopasowania generujemy w sposób systematyczny i uporządkowany.
 \subsubsection{Sprawdzanie sekwencji}
 Sprawdzenie sekwencji polega na weryfikacji, czy otrzymaliśmy poprawny prostopadłościan. Weryfikacji dokonujemy
-poprzez znalezienie najmniejszego prostopadłościanu zawierającego bryłę i sprawdzeniu bryła go wypełnia.
+poprzez znalezienie najmniejszego prostopadłościanu zawierającego bryłę i sprawdzeniu czy bryła go wypełnia.
  W wyniku sprawdzenia możemy otrzymać jedną z trzech informacji:
 \begin{itemize}
  \item bryła jest prostopadłościanem
@@ -111,18 +114,14 @@ poprzez znalezienie najmniejszego prostopadłościanu zawierającego bryłę i s
 \end{itemize}
 
 \subsection{Złożoność}
-Złożoność algorytmu generowania kolejnych permutacji wynosi $O(2^n)$.
-Mamy drzewo T, którego korzeniem jest zbiór pusty. W węzłach drzewa znajdują się opisy ruchów.
-Potomkami węzła są opisy ruchów wykonywanych przez powyższy algorytm dla układu klocków utworzonego 
-przez sekwencję ruchów będącą ścieżką od korzenia do rozpatrywanego węzła. 
-Złożoność operacji wykonywanych w każdym węźle wynosi $O(k^2n+k^3)$.
-W przypadku pesymistycznym musimy przejrzeć całe drzewo, czyli złożoność pesymistyczna wynosi $O((k^2n+k^3)n^{n+1})$.
-W przypadku średnim drzewo nie zawsze jest pełne co jednak nie zmniejsza złożoności. 
-
+Dla ciągu $n$ elementowego liczba permutaji wynosi: $n!$. Dla każdej z 
+wygenerowanych permutacji wykonujemy operacje o złożonośći $O((72k^2)^nk^3)$, gdzie $k$ jest to 
+długość najdłuższego klocka. Liczba $72$ jest to iloczyn liczby możliwych orientacji klocka (24)
+i liczby kierunków z których przykładamy klocek (3). Stąd otrzymujemy złożoność pesymistyczną $O(n!(72k^2)^nk^3)$.
 
 \section{Algorytmy aproksymacyjne}
 
-\subsection{Algorytm klonowania}
+\subsection{Algorytm klonowania (Paweł Baran)}
 Pierwszy z~algorytmów aproksymacyjnych jest autorstwa Pawła Baran.
 W~niniejszym podrozdziale zostanie podany jego opis, pseudokod, koszty oraz
 podsumowanie, w~którym przedstawione zostaną wady i~zalety algorytmu.
@@ -229,7 +228,7 @@ warunkach. Również w~przypadkach, gdy $m$ jest porównywalne z~$n$,
 algorytm traci swoje zastosowanie. Jednak podobne przypadki można znaleźć
 dla innych algorytmów aproksymacyjnych.
 
-\subsection{Algorytm aproksymacyjny II}
+\subsection{Algorytm aproksymacyjny II (Andrzej Legucki)}
 \subsubsection{Opis algorytmu}
 Algorytm działa podobnie jak algorytm dokładny. Różni się tym, że nie rozpatruje za każdym razem wszystkich
 możliwych dopasowań dla każdej orientacji tylko wybiera  $C$ $(C=const > 1)$ najlepszych par (orientacja, dopasowanie).
@@ -237,9 +236,9 @@ Tylko wybrane dopasowania są brane pod uwagę przy budowaniu sekwencji ruchów.
 oceny $f: B \rightarrow R$, gdzie B jest to zbiór brył. Dla danej bryły wartością funkcji $f(b)$ jest stosunek objętości
 bryły $b$ (wyrażony w jednostkowych sześcianach) do objętości najmniejszego prostopadłościanu zawierającego bryłę $b$.
 \subsubsection{Złożoność}
-Z rozważań na temat złożoności algorytmu dokładnego i z ograniczenia budowy drzewa T przedstawionego w poprzednim paragrafie
-wynika, że złożoność pesymistyczna tego algorytmu wynosi $O((k^2n+k^3)C^{n+1})$. Podobnie jak w przypadku algorytmu dokładnego
-złożoność średnia jest taka sama jak pesymistyczna.
+Na podstawie złożoności przedstawionej dla algorytmu dokładnego oraz ograniczenia opisanego w poprzednim 
+paragrafie stwierdzamy, że złożoność pesymistyczna wynosi $O(n!C^nk^3)$.
+
 
 \section{Struktury danych}
 
