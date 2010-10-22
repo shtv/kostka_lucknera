@@ -55,7 +55,8 @@ Niniejsza dokumentacja powstała w ramach pierwszego etapu laboratoriów
 z~przedmiotu Teoria Algorytmów i Obliczeń. W niniejszym dokumencie
 przedstawiamy opis algorytmu dokładnego oraz opisy dwu algorytmów
 aproksymujących do zadania. Problemem jest ułożenie największego
-pełnego prostopadłościanu z klocków, którego najdłuższa krawędź jest niedłuższa niż
+pełnego prostopadłościanu z klocków, którego najdłuższa krawędź jest nie
+dłuższa niż
 długość najdłuższego klocka. Pojedynczym zadaniem problemu jest
 ułożenie pełnego prostopadłościanu z zadanego zestawu klocków.
 Rozwiązaniem zadania jest sekwencja ruchów klocków należących do zestawu
@@ -71,33 +72,33 @@ wyniku danego zadania sporządzonego przez zadany algorytm.
 \subsection{Przygotowanie danych}
 Przed rozpoczęciem działania algorytmu wczytujemy klocki z pliku i tworzymy listę \textit{BrickGroupList} obiektów
 \textit{BrickGroup}.Obiekt \textit{BrickGroup} zawiera tablicę ze wszystkimi 24 możliwymi orientacjami
-klocka, indeks ostatnio rozważanego klocka zainiciowany wartością $-1$ oraz zmienne do zapamiętania przesunięcia.
+klocka, indeks ostatnio rozważanego klocka zainicjowany wartością $-1$ oraz zmienne do zapamiętania przesunięcia.
 Lista ruchów jest pusta. Dodatkowo wyszukujemy klocek o największej długości. Odbywa się to poprzez znalezienie
 dla każdego klocka sześcianu jednostkowego o największej dowolnej współrzędnej i wybraniu z wyznaczonych wartości
 największej.
 \subsection{Algorytm}
 \subsubsection{Generowanie sekwencji ruchów}
 Generujemy wszystkie możliwe permutacje listy klocków. Każdej permutacji odpowiada jedna lista \textit{BrickGroupList},
-przy pomocy której generujemy sekwencję ruchów. Wyznaczamy najdłuszy wspólny prefiks permutacji obecnej i poprzedniej, 
-a następnie tworzymy iterator q wskazujący na pierwszy element za znalezionym prefiksem.
-Sekwencja ruchów jest opisana przez fragment listy od początku do aktualnej pozycji iteratora q.
+przy pomocy której generujemy sekwencję ruchów. Wyznaczamy najdłuższy wspólny prefiks permutacji obecnej i poprzedniej, 
+a następnie tworzymy iterator $q$ wskazujący na pierwszy element za znalezionym prefiksem.
+Sekwencja ruchów jest opisana przez fragment listy od początku do aktualnej pozycji iteratora $q$.
 Iterator przesuwamy w następujący sposób:
 \begin{itemize}
- \item Po przesunięciu iteratora do przodu (zainiciowanie iteratora również uważamy za przesunięcie iteratora do przodu)
+ \item Po przesunięciu iteratora do przodu (zainicjowanie iteratora również uważamy za przesunięcie iteratora do przodu)
 generujemy pierwsze możliwe dopasowanie klocka w pierwszej orientacji, a następnie
-wykonujemy sprawdzenie aktualnej sekwencji. Jeżeli możemy przesuwamy iterator dalej, w przeciwnym wypadku generujemy kolejne
-dopasowanie dla klocka wskazywanego aktualnie przez iterator q i sprawdzamy sekwencję. Postępujemy tak aż sprawdzimy
+wykonujemy sprawdzenie aktualnej sekwencji. Jeżeli możemy, przesuwamy iterator dalej, w przeciwnym wypadku generujemy kolejne
+dopasowanie dla klocka wskazywanego aktualnie przez iterator q i sprawdzamy sekwencję. Postępujemy tak, aż sprawdzimy
 wszystkie dopasowania dla wszystkich orientacji po czym cofamy iterator.
  \item Po cofnięciu iteratora generujemy kolejne dopasowanie klocka, sprawdzamy sekwencję i przesuwamy iterator do przodu.
  Jeżeli wygenerujemy wszystkie dopasowania dla danej orientacji przechodzimy do pierwszego dopasowania dla kolejnej orientacji.
- Jeżeli nie możemy wygenerować kolejnego dopasowania (osiągneliśmy ostatnie dopasowanie dla ostatniej orientacji), to 
- cofamy iterator. Jeżeli nie możemy cofnąć iteratora (wskazuje na pierwszy element lub po cofnięciu wskazuje na ostatni element prfiksu)
+ Jeżeli nie możemy wygenerować kolejnego dopasowania (osiągnęliśmy ostatnie dopasowanie dla ostatniej orientacji), to 
+ cofamy iterator. Jeżeli nie możemy cofnąć iteratora (wskazuje na pierwszy element lub po cofnięciu wskazuje na ostatni element prefiksu)
  to przechodzimy do następnej permutacji.
  \item Sprawdzenie sekwencji zwraca nam informację czy dana sekwencja opisuje bryłę o najdłuższej krawędzi większej niż
-długość najdłuższego klocka. Jeżeli tak jest to w powyższych punkatch uznajemy, że nie możemy przesunąc iteratora dalej.
+długość najdłuższego klocka. Jeżeli tak jest to w powyższych punktach uznajemy, że nie możemy przesunąć iteratora dalej.
 Jeżeli dostaniemy informację, że dana sekwencja opisuje prostopadłościan to zapamiętujemy ją.
  \end{itemize}
-Wykonując powyższe ruchy znajdziemy wszystkie poprawne prostopadłościany. Za rozwiązanie przyjumujemy prostopadłościan o
+Wykonując powyższe ruchy znajdziemy wszystkie poprawne prostopadłościany. Za rozwiązanie przyjmujemy prostopadłościan o
 największej objętości.
 \subsubsection{Generowanie dopasowania klocka}
 Możliwe dopasowania klocka generujemy próbując dołożyć klocek z trzech wzajemnie prostopadłych kierunków. Rozpatrujemy
@@ -110,12 +111,12 @@ poprzez znalezienie najmniejszego prostopadłościanu zawierającego bryłę i s
 \begin{itemize}
  \item bryła jest prostopadłościanem
  \item bryła nie jest prostopadłościanem i nie spełnia warunków zadania
- \item bryla nie jest prostopadłościanem i spełnia warunki zadania.
+ \item bryła nie jest prostopadłościanem i spełnia warunki zadania.
 \end{itemize}
 
 \subsection{Złożoność}
-Dla ciągu $n$ elementowego liczba permutaji wynosi: $n!$. Dla każdej z 
-wygenerowanych permutacji wykonujemy operacje o złożonośći $O((72k^2)^nk^3)$, gdzie $k$ jest to 
+Dla ciągu $n$ elementowego liczba permutacji wynosi: $n!$. Dla każdej z 
+wygenerowanych permutacji wykonujemy operacje o złożoności $O((72k^2)^nk^3)$, gdzie $k$ jest to 
 długość najdłuższego klocka. Liczba $72$ jest to iloczyn liczby możliwych orientacji klocka (24)
 i liczby kierunków z których przykładamy klocek (3). Stąd otrzymujemy złożoność pesymistyczną $O(n!(72k^2)^nk^3)$.
 
