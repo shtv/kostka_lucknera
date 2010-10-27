@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="kostka2010" default="dist" basedir=".">
+
+	<property name="basedir" location="${ant.project.basedir}"/>
+	<property name="src" location="${basedir}/src"/>
+	<property name="build" location="${basedir}/build"/>
+	<property name="dist" location="${basedir}/dist"/>
+
+	<target name="init">
+		<tstamp/>
+		<mkdir dir="${build}"/>
+	</target>
+
+	<target name="compile" depends="init">
+		<javac includeAntRuntime="false" classpath="${cp}" srcdir="${src}" destdir="${build}"/>
+	</target>
+
+	<target name="dist" depends="compile" description="jar generation">
+		<mkdir dir="${dist}"/>
+		<jar jarfile="${dist}/${ant.project.name}" basedir="${build}"/>
+	</target>
+
+	<target name="clean">
+		<delete dir="${dist}"/>
+		<delete dir="${build}"/>
+	</target>
+
+</project>
