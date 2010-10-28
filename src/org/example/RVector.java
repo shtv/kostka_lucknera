@@ -1,6 +1,6 @@
 package org.example;
 
-public class Cube{
+public class RVector{
 	long x,y,z;
 
 	/**
@@ -10,18 +10,11 @@ public class Cube{
 	 * @param y The y for this instance.
 	 * @param z The z for this instance.
 	 */
-	public Cube(long x, long y, long z)
+	public RVector(long x, long y, long z)
 	{
 		this.x = x;
 		this.y = y;
 		this.z = z;
-	}
-
-	public boolean equals(Object obj){
-		if(!(obj instanceof Cube)) return false;
-
-		Cube other = (Cube)obj;
-		return other.getX()==x && other.getY()==y && other.getZ()==z;
 	}
 
 	/**
@@ -35,6 +28,16 @@ public class Cube{
 	}
 
 	/**
+	 * Sets the x for this instance.
+	 *
+	 * @param x The x.
+	 */
+	public void setX(long x)
+	{
+		this.x = x;
+	}
+
+	/**
 	 * Gets the y for this instance.
 	 *
 	 * @return The y.
@@ -45,6 +48,16 @@ public class Cube{
 	}
 
 	/**
+	 * Sets the y for this instance.
+	 *
+	 * @param y The y.
+	 */
+	public void setY(long y)
+	{
+		this.y = y;
+	}
+
+	/**
 	 * Gets the z for this instance.
 	 *
 	 * @return The z.
@@ -52,5 +65,15 @@ public class Cube{
 	public long getZ()
 	{
 		return this.z;
+	}
+
+	/**
+	 * Sets the z for this instance.
+	 *
+	 * @param z The z.
+	 */
+	public void setZ(long z)
+	{
+		this.z = z;
 	}
 }
