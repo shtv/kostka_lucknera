@@ -34,6 +34,11 @@ public class ExactSolutionFinder
 				return orientation[oidx];
 			}
 			
+			public Block getOrientedBlock()
+			{
+				return orientedBlock[oidx];
+			}
+			
 			public Vector3D getFit()
 			{
 				return fit;
@@ -83,6 +88,7 @@ public class ExactSolutionFinder
 			}
 		}
 	
+		private final int MAX_LENGTH;
 		private Solution bestSolution;
 		private List<ListElement> blocks;
 		private boolean permGenerated; //udalo sie wygenerowac kolejna premutacje
@@ -90,10 +96,21 @@ public class ExactSolutionFinder
 		public ExactSolutionFinder(List<Block> argblocks)
 		{
 				int counter=0;
+				int maxlength=Integer.MIN_VALUE;
 				permGenerated=false;
 				blocks=new LinkedList<ListElement>();
 				for(Iterator<Block> it=argblocks.iterator();it.hasNext();)
-					blocks.add(new ListElement(++counter,it.next()));
+				{
+					Block cb=it.next();
+					if(cb.getMaxX()>maxlength)
+						maxlength=cb.getMaxX();
+					if(cb.getMaxY()>maxlength)
+						maxlength=cb.getMaxY();
+					if(cb.getMaxZ()>maxlength)
+						maxlength=cb.getMaxZ();
+					blocks.add(new ListElement(++counter,cb));
+				}
+				MAX_LENGTH=maxlength;
 		}
 		
 		private void nextPerm()
@@ -178,7 +195,41 @@ public class ExactSolutionFinder
 		 */
 		private boolean checkSequence(int idx)
 		{
-			return false;
+				boolean properBlock=false;
+				int minz=Integer.MAX_VALUE, maxz=Integer.MIN_VALUE;
+				int miny=Integer.MAX_VALUE, maxy=Integer.MIN_VALUE;
+				int minx=Integer.MAX_VALUE, maxx=Integer.MIN_VALUE;
+				int sum=0;
+				int volume=0;
+				ListIterator<ListElement> q=blocks.listIterator();
+				while(q.previousIndex()<idx)
+				{
+					ListElement le=q.next();
+					if(minz>le.getFit().getZ())
+						minz=le.getFit().getZ();
+					if(miny>le.getFit().getY())
+						miny=le.getFit().getY();
+					if(minx>le.getFit().getX())
+						minx=le.getFit().getX();
+					if(maxz<le.getFit().getZ()+le.getOrientedBlock().getMaxZ())
+						maxz=le.getFit().getZ()+le.getOrientedBlock().getMaxZ();
+					if(maxy<le.getFit().getY()+le.getOrientedBlock().getMaxY())
+						maxy=le.getFit().getY()+le.getOrientedBlock().getMaxY();
+					if(maxx<le.getFit().getX()+le.getOrientedBlock().getMaxX())
+						maxx=le.getFit().getX()+le.getOrientedBlock().getMaxX();
+					sum+=le.getOrientedBlock().getCuboidsCount();
+				}
+				if((maxx-minx)<MAX_LENGTH && (maxy-miny)<MAX_LENGTH && (maxz-minz)<MAX_LENGTH)
+					properBlock=true;
+				volume=(maxx-minx)*(maxy-miny)*(maxz-minz);
+				if(volume==sum)
+					saveSequence(idx);
+				return properBlock;
+		}
+		
+		private void saveSequence(int idx)
+		{
+			
 		}
 		
 		/**
