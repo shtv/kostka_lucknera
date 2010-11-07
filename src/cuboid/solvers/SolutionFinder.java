@@ -1,12 +1,12 @@
 package cuboid.solvers;
 
-import java.util.Set;
+import java.util.List;
 
-import cuboid.base.Block;
+import cuboid.base.BlockCollection;
 import cuboid.base.Solution;
 
 public interface SolutionFinder {
 
-	Solution getSolution(Set<Block> blocks);
+	Solution getSolution(List<BlockCollection> blockCollections);
 
 }

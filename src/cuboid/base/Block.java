@@ -1,10 +1,13 @@
 package cuboid.base;
 
+import java.util.Set;
+
 public class Block {
 		private int maxX;
 		private int maxY;
 		private int maxZ;
 		private int cuboidsCount;
+		Set<Cube> cubes;
 		
 		public int getMaxX()
 		{

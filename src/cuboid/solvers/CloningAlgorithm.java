@@ -1,13 +1,15 @@
 package cuboid.solvers;
 
-import java.util.Set;
+import java.util.List;
 
-import cuboid.base.Block;
+import cuboid.base.BlockCollection;
 import cuboid.base.Solution;
 
 public class CloningAlgorithm implements SolutionFinder {
 
-	public Solution getSolution(Set<Block> blocks) {
+	public Solution getSolution(List<BlockCollection> blockCollections) {
+
+
 		return null;
 	};
 }

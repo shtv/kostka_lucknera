@@ -4,7 +4,7 @@ import java.util.*;
 import cuboid.base.*;
 
 
-public class ExactSolutionFinder 
+public class ExactSolutionFinder  implements SolutionFinder
 {
 		private class ListElement
 		{
