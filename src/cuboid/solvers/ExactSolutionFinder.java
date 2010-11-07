@@ -113,6 +113,14 @@ public class ExactSolutionFinder  implements SolutionFinder
 				MAX_LENGTH=maxlength;
 		}
 		
+		/**
+		 * Constructs a new instance.
+		 */
+		public ExactSolutionFinder()
+		{
+			MAX_LENGTH = 1000; // TODO, do poprawy
+		}
+
 		private void nextPerm()
 		{
 			int i=0,j=0,k=0;
@@ -270,5 +278,9 @@ public class ExactSolutionFinder  implements SolutionFinder
 				esf.nextPerm();
 			} while(esf.permGenerated);
 			System.out.println("I: "+i);
+		}
+
+		public Solution getSolution(java.util.List<BlockCollection> blockCollections) {
+			return null;
 		}
 }
