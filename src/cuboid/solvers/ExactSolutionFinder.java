@@ -10,12 +10,17 @@ public class ExactSolutionFinder
 		{
 			private final int n;
 			private int oidx; //current orientation index
+			private boolean oidxReset;
 			private Block[] orientedBlock;
 			private Orientation[] orientation;
 			private Vector3D fit;
+			private boolean generateFirstFit;
 			
 			public ListElement(int narg,Block block)
 			{
+				oidx=0;
+				oidxReset=false;
+				generateFirstFit=true;
 				n=narg;
 			}
 			
@@ -33,6 +38,49 @@ public class ExactSolutionFinder
 			{
 				return fit;
 			}
+			
+			public void setFit(Vector3D v)
+			{
+				generateFirstFit=false;
+				fit=v;
+			}
+			
+			public void resetFit()
+			{
+				generateFirstFit=true;
+			}
+			
+			public void incOidx()
+			{
+				oidxReset=false;
+				oidx++;
+				if(oidx>=orientedBlock.length)
+				{
+					oidx=0;
+					oidxReset=true;
+				}
+			}
+			
+			public void setOidx(int v)
+			{
+				oidxReset=false;
+				oidx=v;
+				if(oidx>=orientedBlock.length)
+				{
+					oidx=0;
+					oidxReset=true;
+				}
+			}
+			
+			public int getOidx()
+			{
+				return oidx;
+			}
+			
+			public boolean isOidxReset()
+			{
+				return oidxReset;
+			}
 		}
 	
 		private Solution bestSolution;
@@ -46,7 +94,6 @@ public class ExactSolutionFinder
 				blocks=new LinkedList<ListElement>();
 				for(Iterator<Block> it=argblocks.iterator();it.hasNext();)
 					blocks.add(new ListElement(++counter,it.next()));
-				
 		}
 		
 		private void nextPerm()
@@ -72,18 +119,74 @@ public class ExactSolutionFinder
 			for(i++, j=blocks.size(); i<j; i++, j--)
 				Collections.swap(blocks, i-1, j-1);
 		}
-		
+
 		private void checkPerm()
 		{
+			ListElement currentElem;
+			ListIterator<ListElement> q,p;
+			q=blocks.listIterator();
+			p=blocks.listIterator();
 			
+			while(true)
+			{
+				currentElem=q.next();
+				if(!nextFit(q.previousIndex(),currentElem))
+				{
+					currentElem.incOidx();
+					if(currentElem.isOidxReset())
+					{
+						q.previous();
+						if(q.hasPrevious())
+							q.previous();
+						else
+							break;
+						continue;
+					}
+					currentElem.resetFit();
+				}
+				if(checkSequence(q.previousIndex()))
+				{
+					q.previous();
+					q.previous();
+					continue;
+				}
+				if(q.hasNext())
+					continue;
+				else
+				{
+					while(!currentElem.isOidxReset())
+					{
+						while(nextFit(q.previousIndex(),currentElem))
+							checkSequence(q.previousIndex());
+						currentElem.resetFit();
+						currentElem.incOidx();
+					}
+					q.previous();
+					q.previous();
+					continue;
+				}		
+			}
 		}
 		
-		private void checkSequence()
+		/**
+		 *	Jeżeli sprawdzana sekwencja daje prawidlowe rozwiazanie
+		 *  to funkcja sprawdza czy jest ono lepsze od bestSolution
+		 *  i ewentualnie je zapamietuje.
+		 *  
+		 *  @return Funkcja zwraca true jeżeli przekroczono ograniczenie
+		 *  wymiaru rozwiazania. 
+		 */
+		private boolean checkSequence(int idx)
 		{
+			return false;
 		}
 		
-		private void nextFit()
+		/**
+		 *  Zwraca czy udalo sie wygenerowac kolejne dopasowanie
+		 */
+		private boolean nextFit(int idx, ListElement elem)
 		{
+			return false;
 		}
 		
 		public Solution getSolution()
@@ -95,8 +198,6 @@ public class ExactSolutionFinder
 			}while(permGenerated);
 			return bestSolution;
 		}
-		
-		
 		
 		public void print()
 		{
