@@ -4,15 +4,39 @@ import java.util.*;
 import cuboid.base.*;
 
 
-public class ExactSolutionFinder  implements SolutionFinder
+public class ExactSolutionFinder
 {
 		private class ListElement
 		{
+			private final static int orientationCount=24;
 			private final int n;
 			private int oidx; //current orientation index
 			private boolean oidxReset;
 			private Block[] orientedBlock;
-			private Orientation[] orientation;
+			private Orientation[] orientation={new Orientation(0,0,0),
+											   new Orientation(0,90,0),
+											   new Orientation(0,180,0),
+											   new Orientation(0,270,0),
+											   new Orientation(90,0,0),
+											   new Orientation(90,0,90),
+											   new Orientation(90,0,180),
+											   new Orientation(90,0,270),
+											   new Orientation(180,0,0),
+											   new Orientation(180,90,0),
+											   new Orientation(180,180,0),
+											   new Orientation(180,270,0),
+											   new Orientation(270,0,0),
+											   new Orientation(270,0,90),
+											   new Orientation(270,0,180),
+											   new Orientation(270,0,270),
+											   new Orientation(0,0,90),
+											   new Orientation(0,90,90),
+											   new Orientation(0,180,90),
+											   new Orientation(0,270,90),
+											   new Orientation(0,0,270),
+											   new Orientation(0,90,270),
+											   new Orientation(0,180,270),
+											   new Orientation(0,270,270)};
 			private Vector3D fit;
 			private boolean generateFirstFit;
 			
@@ -22,6 +46,12 @@ public class ExactSolutionFinder  implements SolutionFinder
 				oidxReset=false;
 				generateFirstFit=true;
 				n=narg;
+				orientedBlock=new Block[orientation.length];
+				for(int i=0;i<orientation.length;i++)
+				{
+					orientedBlock[i]=new Block(block);
+					orientedBlock[i].orient(orientation[i]);
+				}
 			}
 			
 			public int getN()
@@ -113,14 +143,6 @@ public class ExactSolutionFinder  implements SolutionFinder
 				MAX_LENGTH=maxlength;
 		}
 		
-		/**
-		 * Constructs a new instance.
-		 */
-		public ExactSolutionFinder()
-		{
-			MAX_LENGTH = 1000; // TODO, do poprawy
-		}
-
 		private void nextPerm()
 		{
 			int i=0,j=0,k=0;
@@ -213,11 +235,11 @@ public class ExactSolutionFinder  implements SolutionFinder
 				while(q.previousIndex()<idx)
 				{
 					ListElement le=q.next();
-					if(minz>le.getFit().getZ())
+					if(minz>le.getFit().getZ()+le.getOrientedBlock().getMinZ())
 						minz=le.getFit().getZ();
-					if(miny>le.getFit().getY())
+					if(miny>le.getFit().getY()+le.getOrientedBlock().getMinY())
 						miny=le.getFit().getY();
-					if(minx>le.getFit().getX())
+					if(minx>le.getFit().getX()+le.getOrientedBlock().getMinX())
 						minx=le.getFit().getX();
 					if(maxz<le.getFit().getZ()+le.getOrientedBlock().getMaxZ())
 						maxz=le.getFit().getZ()+le.getOrientedBlock().getMaxZ();
@@ -225,14 +247,14 @@ public class ExactSolutionFinder  implements SolutionFinder
 						maxy=le.getFit().getY()+le.getOrientedBlock().getMaxY();
 					if(maxx<le.getFit().getX()+le.getOrientedBlock().getMaxX())
 						maxx=le.getFit().getX()+le.getOrientedBlock().getMaxX();
-					sum+=le.getOrientedBlock().getCuboidsCount();
+					sum+=le.getOrientedBlock().getCubesCount();
 				}
 				if((maxx-minx)<MAX_LENGTH && (maxy-miny)<MAX_LENGTH && (maxz-minz)<MAX_LENGTH)
 					properBlock=true;
 				volume=(maxx-minx)*(maxy-miny)*(maxz-minz);
 				if(volume==sum)
 					saveSequence(idx);
-				return properBlock;
+				return !properBlock;
 		}
 		
 		private void saveSequence(int idx)
@@ -269,7 +291,7 @@ public class ExactSolutionFinder  implements SolutionFinder
 		
 		public static void main(String[] args)
 		{
-			ExactSolutionFinder esf=new ExactSolutionFinder(null);
+			/*ExactSolutionFinder esf=new ExactSolutionFinder(null);
 			int i=0;
 			do
 			{
@@ -277,10 +299,17 @@ public class ExactSolutionFinder  implements SolutionFinder
 				esf.print();
 				esf.nextPerm();
 			} while(esf.permGenerated);
-			System.out.println("I: "+i);
-		}
-
-		public Solution getSolution(java.util.List<BlockCollection> blockCollections) {
-			return null;
+			System.out.println("I: "+i);*/
+			/*Block b=new Block();
+			b.add(0,0,0);
+			b.add(1,0,0);
+			b.add(1,1,0);
+			b.orient(new Orientation(90,-90,90));
+			Iterator<Cube> it=b.getCubes().iterator();
+			while(it.hasNext())
+			{
+				Cube c=it.next();
+				System.out.println(c.getX()+","+c.getY()+","+c.getZ());
+			}*/
 		}
 }
