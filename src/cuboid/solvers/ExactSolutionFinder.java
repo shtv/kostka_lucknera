@@ -4,9 +4,9 @@ import java.util.*;
 import cuboid.base.*;
 
 
-public class ExactSolutionFinder
+public class ExactSolutionFinder implements SolutionFinder
 {
-		private class ListElement
+		protected class ListElement
 		{
 			private final static int orientationCount=24;
 			private final int n;
@@ -118,32 +118,16 @@ public class ExactSolutionFinder
 			}
 		}
 	
-		private final int MAX_LENGTH;
-		private Solution bestSolution;
-		private List<ListElement> blocks;
-		private boolean permGenerated; //udalo sie wygenerowac kolejna premutacje
+		protected int MAX_LENGTH;
+		protected Solution bestSolution;
+		protected List<ListElement> blocks;
+		protected boolean permGenerated; //udalo sie wygenerowac kolejna premutacje
 	
-		public ExactSolutionFinder(List<Block> argblocks)
+		public ExactSolutionFinder()
 		{
-				int counter=0;
-				int maxlength=Integer.MIN_VALUE;
-				permGenerated=false;
-				blocks=new LinkedList<ListElement>();
-				for(Iterator<Block> it=argblocks.iterator();it.hasNext();)
-				{
-					Block cb=it.next();
-					if(cb.getMaxX()>maxlength)
-						maxlength=cb.getMaxX();
-					if(cb.getMaxY()>maxlength)
-						maxlength=cb.getMaxY();
-					if(cb.getMaxZ()>maxlength)
-						maxlength=cb.getMaxZ();
-					blocks.add(new ListElement(++counter,cb));
-				}
-				MAX_LENGTH=maxlength;
 		}
 		
-		private void nextPerm()
+		protected void nextPerm()
 		{
 			int i=0,j=0,k=0;
 			permGenerated=false;
@@ -167,7 +151,7 @@ public class ExactSolutionFinder
 				Collections.swap(blocks, i-1, j-1);
 		}
 
-		private void checkPerm()
+		protected void checkPerm()
 		{
 			ListElement currentElem;
 			ListIterator<ListElement> q,p;
@@ -190,10 +174,10 @@ public class ExactSolutionFinder
 						continue;
 					}
 					currentElem.resetFit();
+					nextFit(q.previousIndex(), currentElem);
 				}
 				if(checkSequence(q.previousIndex()))
 				{
-					q.previous();
 					q.previous();
 					continue;
 				}
@@ -223,7 +207,7 @@ public class ExactSolutionFinder
 		 *  @return Funkcja zwraca true jeżeli przekroczono ograniczenie
 		 *  wymiaru rozwiazania. 
 		 */
-		private boolean checkSequence(int idx)
+		protected boolean checkSequence(int idx)
 		{
 				boolean properBlock=false;
 				int minz=Integer.MAX_VALUE, maxz=Integer.MIN_VALUE;
@@ -257,7 +241,7 @@ public class ExactSolutionFinder
 				return !properBlock;
 		}
 		
-		private void saveSequence(int idx)
+		protected void saveSequence(int idx)
 		{
 			
 		}
@@ -265,13 +249,34 @@ public class ExactSolutionFinder
 		/**
 		 *  Zwraca czy udalo sie wygenerowac kolejne dopasowanie
 		 */
-		private boolean nextFit(int idx, ListElement elem)
+		protected boolean nextFit(int idx, ListElement elem)
 		{
 			return false;
 		}
 		
-		public Solution getSolution()
+		public Solution getSolution(List<BlockCollection> lbc)
 		{
+			int counter=0;
+			int maxlength=Integer.MIN_VALUE;
+			permGenerated=false;
+			blocks=new LinkedList<ListElement>();
+			for(Iterator<BlockCollection> it=lbc.iterator();it.hasNext();)
+			{
+				BlockCollection bc=it.next();
+				for(int i=0;i<bc.getAmount();i++)
+				{
+					Block cb=bc.getBlock();
+					if(cb.getMaxX()>maxlength)
+						maxlength=cb.getMaxX();
+					if(cb.getMaxY()>maxlength)
+						maxlength=cb.getMaxY();
+					if(cb.getMaxZ()>maxlength)
+						maxlength=cb.getMaxZ();
+					blocks.add(new ListElement(counter,cb));
+				}
+				counter++;
+			}
+			MAX_LENGTH=maxlength;
 			do
 			{
 				checkPerm();
@@ -280,36 +285,7 @@ public class ExactSolutionFinder
 			return bestSolution;
 		}
 		
-		public void print()
-		{
-			ListIterator<ListElement> it=blocks.listIterator();
-			System.out.println();
-			while(it.hasNext())
-				System.out.print(it.next().getN()+" ");
-			System.out.println();
-		}
-		
 		public static void main(String[] args)
 		{
-			/*ExactSolutionFinder esf=new ExactSolutionFinder(null);
-			int i=0;
-			do
-			{
-				++i;
-				esf.print();
-				esf.nextPerm();
-			} while(esf.permGenerated);
-			System.out.println("I: "+i);*/
-			/*Block b=new Block();
-			b.add(0,0,0);
-			b.add(1,0,0);
-			b.add(1,1,0);
-			b.orient(new Orientation(90,-90,90));
-			Iterator<Cube> it=b.getCubes().iterator();
-			while(it.hasNext())
-			{
-				Cube c=it.next();
-				System.out.println(c.getX()+","+c.getY()+","+c.getZ());
-			}*/
 		}
 }
