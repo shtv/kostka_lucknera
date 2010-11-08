@@ -12,9 +12,13 @@ public class CloningAlgorithm implements SolutionFinder {
 	 */
 	final int limit;
 	/**
-	 * Limit of used block's clones per amount.
+	 * Limit of used block's clones per amount. Recommended 0.9.
 	 */
 	final double usedLimit;
+	/**
+	 * Limit of solid's length.
+	 */
+	final int lengthLimit;
 	final List<Proportion> proportions;
 	int copiesNumber;
 
@@ -87,10 +91,11 @@ public class CloningAlgorithm implements SolutionFinder {
 	 *
 	 * @param limit The limit for this instance.
 	 */
-	public CloningAlgorithm(int limit,double usedLimit)
+	public CloningAlgorithm(int limit,double usedLimit,int lengthLimit)
 	{
 		this.limit = limit;
 		this.usedLimit = usedLimit;
+		this.lengthLimit = lengthLimit;
 		proportions = new ArrayList<Proportion>();
 	}
 
@@ -151,7 +156,12 @@ public class CloningAlgorithm implements SolutionFinder {
 	}
 
 	Solution cloneSolution(Solution originSolution){
-		return null;
+		if(originSolution == null)
+			return null;
+
+		originSolution.clone(copiesNumber,lengthLimit);
+
+		return originSolution;
 	}
 
 	Solution findSolution(SolutionFinder algorithm){
