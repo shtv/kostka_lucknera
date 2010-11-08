@@ -7,8 +7,16 @@ import cuboid.base.BlockCollection;
 import cuboid.base.Solution;
 
 public class CloningAlgorithm implements SolutionFinder {
+	/**
+	 * Proportions limit. Recommended 10.
+	 */
 	final int limit;
+	/**
+	 * Limit of used block's clones per amount.
+	 */
+	final double usedLimit;
 	final List<Proportion> proportions;
+	int copiesNumber;
 
 	class Proportion {
 		BlockCollection blockCollection;
@@ -34,7 +42,7 @@ public class CloningAlgorithm implements SolutionFinder {
 		{
 			return this.blockCollection;
 		}
-		public void increaseUsedAmount(int usedAmount)
+		public void increaseUsedAmount()
 		{
 			++usedAmount;
 		}
@@ -51,6 +59,27 @@ public class CloningAlgorithm implements SolutionFinder {
 		public double getQuotient(){
 			return (double)usedAmount/(double)blockCollection.getAmount();
 		}
+
+		public int getClonedAmount(){
+			return usedAmount*copiesNumber;
+		}
+
+		public double getUse(){
+			return (double)getClonedAmount()/(double)getAmount();
+		}
+
+		public int getAmount(){
+			return blockCollection.getAmount();
+		}
+
+		public int getExcess(){
+			return getAmount()-getClonedAmount();
+		}
+
+		public void reduceToOne(){
+			usedAmount = 1;
+		}
+
 	}
 
 	/**
@@ -58,19 +87,67 @@ public class CloningAlgorithm implements SolutionFinder {
 	 *
 	 * @param limit The limit for this instance.
 	 */
-	public CloningAlgorithm(int limit)
+	public CloningAlgorithm(int limit,double usedLimit)
 	{
 		this.limit = limit;
+		this.usedLimit = usedLimit;
 		proportions = new ArrayList<Proportion>();
+	}
+
+	public void computeCopiesNumber(){
+		copiesNumber = proportions.get(0).getAmount()/proportions.get(0).getUsedAmount();
+		
+		for(Proportion proportion:proportions){
+			int n = proportion.getAmount()/proportion.getUsedAmount();
+			if(n<copiesNumber)
+				copiesNumber = n;
+		}
+
 	}
 
 	void generateFirstProportions(List<BlockCollection> blockCollections){
 		for(BlockCollection blockCollection : blockCollections)
 			if(blockCollection.getAmount()>1)
 				proportions.add(new Proportion(blockCollection,1));
+
+		computeCopiesNumber();
+	}
+
+	void increaseProportions(){
+		Proportion p = proportions.get(0);
+
+		for(Proportion proportion:proportions)
+			if(proportion.getExcess()>p.getExcess())
+				p = proportion;
+
+		p.increaseUsedAmount();
+	}
+
+	void reduceProportions(){
+		Proportion p = proportions.get(0);
+
+		for(Proportion proportion:proportions)
+			if(proportion.getAmount()<p.getAmount())
+				p = proportion;
+
+		proportions.remove(p);
+
+		for(Proportion proportion:proportions)
+			proportion.reduceToOne();
+	}
+
+	int generatingMethod() {
+		for(Proportion proportion:proportions)
+			if(proportion.getUse()<usedLimit)
+				return 2;
+		return 1;
 	}
 
 	void generateNextProportions(){
+		if(generatingMethod()==1)
+			increaseProportions();
+		else
+			reduceProportions();
 	}
 
 	Solution findSolution(SolutionFinder algorithm){
