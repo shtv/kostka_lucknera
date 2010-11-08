@@ -150,9 +150,21 @@ public class CloningAlgorithm implements SolutionFinder {
 			reduceProportions();
 	}
 
-	Solution findSolution(SolutionFinder algorithm){
-
+	Solution cloneSolution(Solution originSolution){
 		return null;
+	}
+
+	Solution findSolution(SolutionFinder algorithm){
+		List<BlockCollection> usedBlockCollections = new ArrayList<BlockCollection>();
+
+		for(Proportion proportion:proportions){
+			usedBlockCollections.add(new BlockCollection(proportion.getBlockCollection().getBlock(),
+						proportion.getUsedAmount()));
+		}
+
+		Solution solution = algorithm.getSolution(usedBlockCollections);
+
+		return cloneSolution(solution);
 	}
 
 	public Solution getSolution(List<BlockCollection> blockCollections) {
