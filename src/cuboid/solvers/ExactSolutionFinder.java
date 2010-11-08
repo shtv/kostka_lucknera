@@ -1,6 +1,7 @@
 package cuboid.solvers;
 
 import java.util.*;
+
 import cuboid.base.*;
 
 
@@ -154,9 +155,8 @@ public class ExactSolutionFinder implements SolutionFinder
 		protected void checkPerm()
 		{
 			ListElement currentElem;
-			ListIterator<ListElement> q,p;
+			ListIterator<ListElement> q;
 			q=blocks.listIterator();
-			p=blocks.listIterator();
 			
 			while(true)
 			{
@@ -243,7 +243,11 @@ public class ExactSolutionFinder implements SolutionFinder
 		
 		protected void saveSequence(int idx)
 		{
-			
+			/*
+			 * Sprawdza czy objetosc sekwencji, ktora ma byc zapisana jest wieksza od 
+			 * objetosci bestSolution. 
+			 * Jesli tak to nastepuje zapisanie.
+			 */
 		}
 		
 		/**
@@ -251,6 +255,9 @@ public class ExactSolutionFinder implements SolutionFinder
 		 */
 		protected boolean nextFit(int idx, ListElement elem)
 		{
+			/*
+			 * Ustawia kolejne dopasowanie elementu elem.
+			 */
 			return false;
 		}
 		
@@ -283,9 +290,5 @@ public class ExactSolutionFinder implements SolutionFinder
 				nextPerm();
 			}while(permGenerated);
 			return bestSolution;
-		}
-		
-		public static void main(String[] args)
-		{
 		}
 }
