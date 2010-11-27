@@ -3,6 +3,7 @@ package cuboid.base;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.Stack;
 
 public class Block {
 		private static final double deg2rad=Math.PI/180; 
@@ -38,6 +39,15 @@ public class Block {
 		public Block(String structure) throws BlockSetFormatException{
 			cubes = new HashSet<Cube>();
 			cubes.add(new Cube(0,0,0));
+			Stack<Cube> stack = new Stack<Cube>();
+			char[] cArray = structure.toCharArray();
+			for(char c:cArray)
+				switch(c){
+					case '(':
+						break;
+					default:
+						throw new BlockSetFormatException("Char "+c+" is not allowed in structure.");
+				}
 //			throw new BlockSetFormatException("Invalid structure in block tag.");
 		}
 		

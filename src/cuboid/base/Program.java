@@ -62,6 +62,8 @@ public class Program {
 						throw new BlockSetFormatException("First attribute of block must be amount and second one must be structure.");
 					}else{
 						int amount = Integer.parseInt(node.getAttributes().item(0).getNodeValue());
+						if(amount<1)
+							throw new BlockSetFormatException("amount must be greater than 0.");
 						String structure = node.getAttributes().item(1).getNodeValue();
 						BlockCollection bc = new BlockCollection(new Block(structure),amount);
 						blockCollections.add(bc);

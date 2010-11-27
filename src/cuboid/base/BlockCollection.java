@@ -10,10 +10,8 @@ public class BlockCollection {
 	 * @param block The block for this instance.
 	 * @param amount The amount for this instance.
 	 */
-	public BlockCollection(Block block, int amount) throws BlockSetFormatException
+	public BlockCollection(Block block, int amount)
 	{
-		if(amount<1)
-			throw new BlockSetFormatException("Amount must be greater than 0.");
 		this.block = block;
 		this.amount = amount;
 	}
