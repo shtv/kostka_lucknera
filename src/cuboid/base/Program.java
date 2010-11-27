@@ -15,8 +15,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.sun.xml.internal.bind.marshaller.XMLWriter;
-
 import cuboid.solvers.AproximationAlgorithm;
 import cuboid.solvers.CloningAlgorithm;
 import cuboid.solvers.ExactSolutionFinder;
@@ -91,11 +89,13 @@ public class Program {
 		BufferedWriter writer = null;
 		try{
 			writer = new BufferedWriter(new FileWriter(filename));
-			XMLWriter w = new XMLWriter(writer,"UTF-8");
-			w.startDocument();
-			w.startElement("blocksProject");
-			w.endElement("blocksProject");
-			w.endDocument();
+			writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+			writer.write("\n<blocksProject>");
+			writer.write("\n\t<blockSet>");
+			writer.write("\n\t</blockSet>");
+			writer.write("\n\t<solution>");
+			writer.write("\n\t</solution>");
+			writer.write("\n</blocksProject>");
 		}catch(Exception e){
 			e.printStackTrace();
 		}finally{
@@ -121,6 +121,9 @@ public class Program {
 
 		SolutionFinder algorithm;
 
+		// do usunięcia!
+		saveToFile(null,args[1]);
+
 		switch(Integer.parseInt(args[2])){
 			case 1:
 				algorithm = new ExactSolutionFinder();
@@ -128,11 +131,15 @@ public class Program {
 			case 2:
 				algorithm = new AproximationAlgorithm();
 				break;
-			default:
+			case 3:
 				algorithm = new CloningAlgorithm(10,0.9);
+				break;
+			default:
+				showValidUsage();
+				return;
 		}
 
-		Solution solution = null; //algorithm.solve(blockCollections);
+		Solution solution = algorithm.solve(blockCollections);
 
 		saveToFile(solution,args[1]);
 	}

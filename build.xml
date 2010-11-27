@@ -12,6 +12,7 @@
 		<!--		<pathelement path="${lib}/xml-writer.jar"/> -->
 		<!-- <pathelement path="${lib}/xmlrpc.jar"/> -->
 		<pathelement path="${java.class.path}"/>
+		<pathelement path="${env.CLASSPATH}"/>
 	</path>
 
 	<pathconvert property="mf.cp" pathsep=" ">
@@ -24,7 +25,9 @@
 	</target>
 
 	<target name="compile" depends="init">
-		<javac srcdir="${src}" destdir="${build}" classpath="${env.CLASSPATH}"/>
+		<javac includeantruntime="false" srcdir="${src}" destdir="${build}">
+			<classpath refid="project.cp"/>
+		</javac>
 	</target>
 
 	<target name="dist" depends="compile" description="jar generation">
