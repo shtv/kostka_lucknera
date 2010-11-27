@@ -34,7 +34,23 @@ public class Block {
 			while(it.hasNext())
 				cubes.add(new Cube(it.next()));
 		}
+
+		public Block(String structure) throws BlockSetFormatException{
+			cubes = new HashSet<Cube>();
+			cubes.add(new Cube(0,0,0));
+//			throw new BlockSetFormatException("Invalid structure in block tag.");
+		}
 		
+		/**
+		 * Constructs a new instance.
+		 *
+		 * @param cubes The cubes for this instance.
+		 */
+		public Block(Set<Cube> cubes)
+		{
+			this.cubes = cubes;
+		}
+
 		public int getMinX() {
 			return minX;
 		}
@@ -68,14 +84,14 @@ public class Block {
 			double yAngle=o.getAngleY()*deg2rad;
 			double zAngle=o.getAngleZ()*deg2rad;
 			int[][] xRot={{1,0,0},
-					      {0,(int) Math.round(Math.cos(xAngle)),(int) Math.round(-1*Math.sin(xAngle))},
-					      {0,(int)Math.round(Math.sin(xAngle)),(int)Math.round(Math.cos(xAngle))}};
+								{0,(int) Math.round(Math.cos(xAngle)),(int) Math.round(-1*Math.sin(xAngle))},
+								{0,(int)Math.round(Math.sin(xAngle)),(int)Math.round(Math.cos(xAngle))}};
 			int[][] yRot={{(int)Math.round(Math.cos(yAngle)),0,(int)Math.round(Math.sin(yAngle))},
-						  {0,1,0},
-						  {(int)Math.round(-1*Math.sin(yAngle)),0,(int)Math.round(Math.cos(yAngle))}};
+							{0,1,0},
+							{(int)Math.round(-1*Math.sin(yAngle)),0,(int)Math.round(Math.cos(yAngle))}};
 			int[][] zRot={{(int)Math.round(Math.cos(zAngle)),(int)Math.round(-1*Math.sin(zAngle)),0},
-					      {(int)Math.round(Math.sin(zAngle)),(int)Math.round(Math.cos(zAngle)),0},
-					      {0,0,1}};
+								{(int)Math.round(Math.sin(zAngle)),(int)Math.round(Math.cos(zAngle)),0},
+								{0,0,1}};
 			
 			for(int i=0;i<xRot.length;i++)
 			{
