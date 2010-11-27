@@ -1,2 +1,9 @@
-TO DO
-Dokumentacja
+To get jar file, run "ant", please.
+
+Jar file usage:
+
+java -jar kostka2010 input output
+
+where:
+- input - brick set file,
+- output - solution file.
