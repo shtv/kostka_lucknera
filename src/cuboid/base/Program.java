@@ -21,7 +21,7 @@ public class Program {
 	static List<BlockCollection> blockCollections;
 
 	static void showValidUsage(){
-		System.out.println("Valid usage:\njava -jar kostka2010.jar input output\n\nwhere:\n input - block set file\n output - solution file");
+		System.out.println("Valid usage:\njava -jar kostka2010.jar input output nr\n\nwhere:\n input - block set file\n output - solution file\n nr - algorithm number (1 - exact, 2 - aproximation, 3 - cloning");
 	}
 
 	static void readFile(String filename){

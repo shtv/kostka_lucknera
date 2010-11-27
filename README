@@ -2,8 +2,12 @@ To get jar file, run "ant", please.
 
 Jar file usage:
 
-java -jar kostka2010.jar input output
+java -jar kostka2010.jar input output nr
 
 where:
 - input - brick set file,
 - output - solution file.
+- nr - algorithm number:
+	- 1 - exact
+	- 2 - aproximation
+	- 3 - cloning
