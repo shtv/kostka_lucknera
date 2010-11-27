@@ -76,7 +76,8 @@ public class Block {
 //				System.out.println("dodajemy = "+prev);
 				cubes.add(prev);
 			}
-//			throw new BlockSetFormatException("Invalid structure in block tag.");
+			if(!stack.isEmpty())
+				throw new BlockSetFormatException("More opening brackets than closing one's in structure.");
 		}
 		
 		/**
