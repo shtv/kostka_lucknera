@@ -7,6 +7,6 @@ import cuboid.base.Solution;
 
 public interface SolutionFinder {
 
-	Solution getSolution(List<BlockCollection> blockCollections);
+	Solution solve(List<BlockCollection> blockCollections);
 
 }

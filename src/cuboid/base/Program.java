@@ -12,6 +12,11 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import cuboid.solvers.AproximationAlgorithm;
+import cuboid.solvers.CloningAlgorithm;
+import cuboid.solvers.ExactSolutionFinder;
+import cuboid.solvers.SolutionFinder;
+
 public class Program {
 	static List<BlockCollection> blockCollections;
 
@@ -77,14 +82,33 @@ public class Program {
 		}
 	}
 
+	static void saveToFile(Solution solution, String filename){
+	}
+
 	public static void main(String[] args){
-		if(args.length!=2){
+		if(args.length!=3){
 			System.err.println("Wrong usage!\n");
 			showValidUsage();
 			return;
 		}
 		readFile(args[0]);
 		System.out.println("Read: OK.");
+
+		SolutionFinder algorithm;
+
+		switch(Integer.parseInt(args[2])){
+			case 1:
+				algorithm = new ExactSolutionFinder();
+				break;
+			case 2:
+				algorithm = new AproximationAlgorithm();
+				break;
+			default:
+				algorithm = new CloningAlgorithm(10,0.9);
+		}
+
+		Solution solution = algorithm.solve(blockCollections);
+		saveToFile(solution,args[1]);
 	}
 
 }

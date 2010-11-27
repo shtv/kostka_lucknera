@@ -261,7 +261,7 @@ public class ExactSolutionFinder implements SolutionFinder
 			return false;
 		}
 		
-		public Solution getSolution(List<BlockCollection> lbc)
+		public Solution solve(List<BlockCollection> lbc)
 		{
 			int counter=0;
 			int maxlength=Integer.MIN_VALUE;
