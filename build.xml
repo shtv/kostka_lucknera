@@ -5,6 +5,18 @@
 	<property name="src" location="${basedir}/src"/>
 	<property name="build" location="${basedir}/build"/>
 	<property name="dist" location="${basedir}/dist"/>
+	<property name="lib" location="${basedir}/lib"/>
+	<property environment="env"/>
+
+	<path id="project.cp">
+		<!--		<pathelement path="${lib}/xml-writer.jar"/> -->
+		<!-- <pathelement path="${lib}/xmlrpc.jar"/> -->
+		<pathelement path="${java.class.path}"/>
+	</path>
+
+	<pathconvert property="mf.cp" pathsep=" ">
+		<path refid="project.cp"/>
+	</pathconvert>
 
 	<target name="init">
 		<tstamp/>
@@ -12,7 +24,7 @@
 	</target>
 
 	<target name="compile" depends="init">
-		<javac includeAntRuntime="false" classpath="${cp}" srcdir="${src}" destdir="${build}"/>
+		<javac srcdir="${src}" destdir="${build}" classpath="${env.CLASSPATH}"/>
 	</target>
 
 	<target name="dist" depends="compile" description="jar generation">
@@ -20,6 +32,7 @@
 		<jar jarfile="${dist}/${ant.project.name}.jar" basedir="${build}">
 			<manifest>
 				<attribute name="Main-Class" value="cuboid.base.Program"/>
+				<attribute name="Class-Path" value="${mf.cp}"/>
 			</manifest>
 		</jar>
 	</target>

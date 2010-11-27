@@ -1,6 +1,9 @@
 package cuboid.base;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +15,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.sun.xml.internal.bind.marshaller.XMLWriter;
+
 import cuboid.solvers.AproximationAlgorithm;
 import cuboid.solvers.CloningAlgorithm;
 import cuboid.solvers.ExactSolutionFinder;
@@ -21,7 +26,7 @@ public class Program {
 	static List<BlockCollection> blockCollections;
 
 	static void showValidUsage(){
-		System.out.println("Valid usage:\njava -jar kostka2010.jar input output nr\n\nwhere:\n input - block set file\n output - solution file\n nr - algorithm number (1 - exact, 2 - aproximation, 3 - cloning");
+		System.out.println("Valid usage:\njava -jar kostka2010.jar input output nr\n\nwhere:\n input - block set file\n output - solution file\n nr - algorithm number (1 - exact, 2 - aproximation, 3 - cloning)");
 	}
 
 	static void readFile(String filename){
@@ -83,6 +88,26 @@ public class Program {
 	}
 
 	static void saveToFile(Solution solution, String filename){
+		BufferedWriter writer = null;
+		try{
+			writer = new BufferedWriter(new FileWriter(filename));
+			XMLWriter w = new XMLWriter(writer,"UTF-8");
+			w.startDocument();
+			w.startElement("blocksProject");
+			w.endElement("blocksProject");
+			w.endDocument();
+		}catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			try{
+				if(writer!=null){
+					writer.flush();
+					writer.close();
+				}
+			}catch(IOException ioe){
+				ioe.printStackTrace();
+			}
+		}
 	}
 
 	public static void main(String[] args){
@@ -107,7 +132,8 @@ public class Program {
 				algorithm = new CloningAlgorithm(10,0.9);
 		}
 
-		Solution solution = algorithm.solve(blockCollections);
+		Solution solution = null; //algorithm.solve(blockCollections);
+
 		saveToFile(solution,args[1]);
 	}
 
