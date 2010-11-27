@@ -17,7 +17,11 @@
 
 	<target name="dist" depends="compile" description="jar generation">
 		<mkdir dir="${dist}"/>
-		<jar jarfile="${dist}/${ant.project.name}.jar" basedir="${build}"/>
+		<jar jarfile="${dist}/${ant.project.name}.jar" basedir="${build}">
+			<manifest>
+				<attribute name="Main-Class" value="cuboid.base.Program"/>
+			</manifest>
+		</jar>
 	</target>
 
 	<target name="clean">
