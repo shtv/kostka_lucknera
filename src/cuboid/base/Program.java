@@ -67,7 +67,7 @@ public class Program {
 						String structure = node.getAttributes().item(1).getNodeValue();
 						BlockCollection bc = new BlockCollection(new Block(structure),amount);
 						blockCollections.add(bc);
-//						System.out.println("nowy blok");
+						//System.out.println("nowy blok = "+bc);
 					}
 			}
 			
@@ -84,7 +84,7 @@ public class Program {
 			return;
 		}
 		readFile(args[0]);
-		System.out.println("hello!");
+		System.out.println("Read: OK.");
 	}
 
 }

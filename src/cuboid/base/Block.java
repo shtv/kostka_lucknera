@@ -38,16 +38,44 @@ public class Block {
 
 		public Block(String structure) throws BlockSetFormatException{
 			cubes = new HashSet<Cube>();
-			cubes.add(new Cube(0,0,0));
 			Stack<Cube> stack = new Stack<Cube>();
 			char[] cArray = structure.toCharArray();
-			for(char c:cArray)
+			Cube prev = new Cube(0,0,0);
+			cubes.add(prev);
+			for(char c:cArray){
 				switch(c){
 					case '(':
+						stack.push(prev);
+						continue;
+					case ')':
+						prev = stack.pop();
+						if(prev==null)
+							throw new BlockSetFormatException("Invalid strucure. In some structure prefix closing brackets more than opening one's.");
+						continue;
+					case 'W':
+						prev = new Cube(prev.getX()-1,prev.getY(),prev.getZ());
+						break;
+					case 'E':
+						prev = new Cube(prev.getX()+1,prev.getY(),prev.getZ());
+						break;
+					case 'N':
+						prev = new Cube(prev.getX(),prev.getY()+1,prev.getZ());
+						break;
+					case 'S':
+						prev = new Cube(prev.getX(),prev.getY()-1,prev.getZ());
+						break;
+					case 'D':
+						prev = new Cube(prev.getX(),prev.getY(),prev.getZ()-1);
+						break;
+					case 'U':
+						prev = new Cube(prev.getX(),prev.getY(),prev.getZ()+1);
 						break;
 					default:
 						throw new BlockSetFormatException("Char "+c+" is not allowed in structure.");
 				}
+//				System.out.println("dodajemy = "+prev);
+				cubes.add(prev);
+			}
 //			throw new BlockSetFormatException("Invalid structure in block tag.");
 		}
 		
@@ -194,5 +222,14 @@ public class Block {
 		public Set<Cube> getCubes()
 		{
 			return cubes;
+		}
+
+		public String toString() {
+			StringBuffer sb = new StringBuffer();
+			sb.append("b[");
+			for(Cube cube:cubes)
+				sb.append(cube);
+			sb.append("]");
+			return sb.toString();
 		}
 }

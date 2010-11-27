@@ -36,4 +36,8 @@ public class BlockCollection {
 		return this.amount;
 	}
 
+	public String toString() {
+		return "bc[amount="+amount+",block="+block+"]";
+	}
+
 }
