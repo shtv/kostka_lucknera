@@ -2,7 +2,7 @@ To get jar file, run "ant", please.
 
 Jar file usage:
 
-java -jar kostka2010 input output
+java -jar kostka2010.jar input output
 
 where:
 - input - brick set file,
