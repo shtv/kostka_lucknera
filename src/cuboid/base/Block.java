@@ -81,6 +81,27 @@ public class Block {
 			if(!stack.isEmpty())
 				throw new BlockSetFormatException("More opening brackets than closing one's in structure.");
 		}
+
+		public int computeMaxLength(){
+			for(Cube cube:cubes){
+				if(cube.getX()>maxX)
+					maxX = cube.getX();
+				else if(cube.getX()<minX)
+					minX = cube.getX();
+
+				if(cube.getY()>maxY)
+					maxY = cube.getY();
+				else if(cube.getY()<minY)
+					minY = cube.getY();
+
+				if(cube.getZ()>maxZ)
+					maxZ = cube.getZ();
+				else if(cube.getZ()<minZ)
+					minZ = cube.getZ();
+
+			}
+			return Math.max(maxX-minX,Math.max(maxY-minY,maxZ-minZ));
+		}
 		
 		/**
 		 * Constructs a new instance.

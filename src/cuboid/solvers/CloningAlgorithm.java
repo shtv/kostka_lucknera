@@ -48,7 +48,8 @@ public class CloningAlgorithm implements SolutionFinder {
 		}
 		public void increaseUsedAmount()
 		{
-			++usedAmount;
+			if(blockCollection.getAmount()>usedAmount)
+				++usedAmount;
 		}
 		/**
 		 * Gets the usedAmount for this instance.
@@ -128,6 +129,8 @@ public class CloningAlgorithm implements SolutionFinder {
 	}
 
 	void reduceProportions(){
+		if(proportions.isEmpty())
+			return;
 		Proportion p = proportions.get(0);
 
 		for(Proportion proportion:proportions)
@@ -154,16 +157,16 @@ public class CloningAlgorithm implements SolutionFinder {
 			reduceProportions();
 	}
 
-	Solution cloneSolution(Solution originSolution){
+	Solution cloneSolution(List<BlockCollection> blockCollections,Solution originSolution){
 		if(originSolution == null)
 			return null;
 
-		originSolution.clone(copiesNumber,lengthLimit);
+		originSolution.clone(blockCollections,copiesNumber,lengthLimit);
 
 		return originSolution;
 	}
 
-	Solution findSolution(SolutionFinder algorithm){
+	Solution findSolution(List<BlockCollection> blockCollections,SolutionFinder algorithm){
 		List<BlockCollection> usedBlockCollections = new ArrayList<BlockCollection>();
 
 		for(Proportion proportion:proportions){
@@ -173,10 +176,20 @@ public class CloningAlgorithm implements SolutionFinder {
 
 		Solution solution = algorithm.solve(usedBlockCollections);
 
-		return cloneSolution(solution);
+		return cloneSolution(blockCollections,solution);
+	}
+
+	public void findLengthLimit(List<BlockCollection> blockCollections){
+		lengthLimit = 0;
+		for(BlockCollection bc:blockCollections){
+			int m = bc.getBlock().computeMaxLength();
+			if(m>lengthLimit)
+				lengthLimit = m;
+		}
 	}
 
 	public Solution solve(List<BlockCollection> blockCollections) {
+		findLengthLimit(blockCollections);
 		generateFirstProportions(blockCollections);
 
 		if(proportions.isEmpty()) return null;
@@ -185,7 +198,7 @@ public class CloningAlgorithm implements SolutionFinder {
 		SolutionFinder algorithm = new ExactSolutionFinder();
 		int i = 1;
 		do{
-			Solution solution = findSolution(algorithm);
+			Solution solution = findSolution(blockCollections,algorithm);
 			if(solution != null && (bestSolution==null ||
 						(solution.compareTo(bestSolution)>0)))
 				bestSolution = solution;

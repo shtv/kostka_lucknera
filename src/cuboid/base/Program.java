@@ -99,9 +99,11 @@ public class Program {
 			}
 			writer.write("\n\t</blockSet>");
 			writer.write("\n\t<solution>");
-			List<Move> moves = solution.getSequence();
-			for(Move move:moves)
-				writer.write("\n\t\t<block id=\""+move.getId()+"\" x=\""+move.getX()+"\" y=\""+move.getY()+"\" z=\""+move.getZ()+"\"/>");
+			if(solution != null){
+				List<Move> moves = solution.getSequence();
+				for(Move move:moves)
+					writer.write("\n\t\t<block id=\""+move.getId()+"\" x=\""+move.getX()+"\" y=\""+move.getY()+"\" z=\""+move.getZ()+"\"/>");
+			}
 			writer.write("\n\t</solution>");
 			writer.write("\n</blocksProject>");
 		}catch(Exception e){

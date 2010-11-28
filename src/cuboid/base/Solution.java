@@ -45,13 +45,14 @@ public class Solution {
 			return volume;
 		}
 
-		public void clone(int numberOfClones,int lengthLimit){
+		public void clone(List<BlockCollection> blockCollections,int numberOfClones,int lengthLimit){
 			// kopiowanie sekwencji ruchów
 			// dzięki czemu mamy kopie takich samych solution
 			// potem je dostawiamy do istniejącego
 			// tym samym powiększamy rozmiar naszego prostopadłościanu
 			//
 			// opisane w dokumentacji, tutaj do zrobienia na 3. etap
+			;
 		}
 
 		/**
