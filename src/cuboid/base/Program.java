@@ -92,8 +92,16 @@ public class Program {
 			writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 			writer.write("\n<blocksProject>");
 			writer.write("\n\t<blockSet>");
+			int i = 0;
+			for(BlockCollection bc:blockCollections){
+				writer.write("\n\t\t<block id=\""+(i++)+"\" amount=\""+bc.getAmount()+"\" structure=\""+bc.getBlock().getStructure()+"\"/>");
+				writer.flush(); // przy dużych danych, lepiej kawałkami zapisywać
+			}
 			writer.write("\n\t</blockSet>");
 			writer.write("\n\t<solution>");
+			List<Move> moves = solution.getSequence();
+			for(Move move:moves)
+				writer.write("\n\t\t<block id=\""+move.getId()+"\" x=\""+move.getX()+"\" y=\""+move.getY()+"\" z=\""+move.getZ()+"\"/>");
 			writer.write("\n\t</solution>");
 			writer.write("\n</blocksProject>");
 		}catch(Exception e){
@@ -122,7 +130,7 @@ public class Program {
 		SolutionFinder algorithm;
 
 		// do usunięcia!
-		saveToFile(null,args[1]);
+		saveToFile(new Solution(),args[1]);
 
 		switch(Integer.parseInt(args[2])){
 			case 1:

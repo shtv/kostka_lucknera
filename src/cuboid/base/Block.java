@@ -14,6 +14,7 @@ public class Block {
 		private int minY;
 		private int minZ;
 		Set<Cube> cubes;
+		String structure;
 		
 		public Block()
 		{
@@ -37,6 +38,7 @@ public class Block {
 		}
 
 		public Block(String structure) throws BlockSetFormatException{
+			this.structure = structure;
 			cubes = new HashSet<Cube>();
 			Stack<Cube> stack = new Stack<Cube>();
 			char[] cArray = structure.toCharArray();
@@ -223,6 +225,26 @@ public class Block {
 		public Set<Cube> getCubes()
 		{
 			return cubes;
+		}
+
+		/**
+		 * Gets the structure for this instance.
+		 *
+		 * @return The structure.
+		 */
+		public String getStructure()
+		{
+			return this.structure;
+		}
+
+		/**
+		 * Sets the structure for this instance.
+		 *
+		 * @param structure The structure.
+		 */
+		public void setStructure(String structure)
+		{
+			this.structure = structure;
 		}
 
 		public String toString() {
