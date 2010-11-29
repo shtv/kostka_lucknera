@@ -49,7 +49,7 @@ public class Cube {
 		y+=ty;
 		z+=tz;
 	}
-
+	
 	public String toString() {
 		return "c["+x+","+y+","+z+"]";
 	};

@@ -31,12 +31,13 @@ public class Block {
 			this.minX=b.getMinX();
 			this.minY=b.getMinY();
 			this.minZ=b.getMinZ();
+			this.structure=new String(b.getStructure());
 			cubes=new HashSet<Cube>();
 			Iterator<Cube> it=b.cubes.iterator();
 			while(it.hasNext())
 				cubes.add(new Cube(it.next()));
 		}
-
+		
 		public Block(String structure) throws BlockSetFormatException{
 			this.structure = structure;
 			cubes = new HashSet<Cube>();
@@ -112,7 +113,7 @@ public class Block {
 		{
 			this.cubes = cubes;
 		}
-
+		
 		public int getMinX() {
 			return minX;
 		}
@@ -146,21 +147,14 @@ public class Block {
 			double yAngle=o.getAngleY()*deg2rad;
 			double zAngle=o.getAngleZ()*deg2rad;
 			int[][] xRot={{1,0,0},
-								{0,(int) Math.round(Math.cos(xAngle)),(int) Math.round(-1*Math.sin(xAngle))},
-								{0,(int)Math.round(Math.sin(xAngle)),(int)Math.round(Math.cos(xAngle))}};
+					      {0,(int) Math.round(Math.cos(xAngle)),(int) Math.round(-1*Math.sin(xAngle))},
+					      {0,(int)Math.round(Math.sin(xAngle)),(int)Math.round(Math.cos(xAngle))}};
 			int[][] yRot={{(int)Math.round(Math.cos(yAngle)),0,(int)Math.round(Math.sin(yAngle))},
-							{0,1,0},
-							{(int)Math.round(-1*Math.sin(yAngle)),0,(int)Math.round(Math.cos(yAngle))}};
+						  {0,1,0},
+						  {(int)Math.round(-1*Math.sin(yAngle)),0,(int)Math.round(Math.cos(yAngle))}};
 			int[][] zRot={{(int)Math.round(Math.cos(zAngle)),(int)Math.round(-1*Math.sin(zAngle)),0},
-								{(int)Math.round(Math.sin(zAngle)),(int)Math.round(Math.cos(zAngle)),0},
-								{0,0,1}};
-			
-			for(int i=0;i<xRot.length;i++)
-			{
-				for(int j=0;j<xRot[i].length;j++)
-					System.out.print(xRot[i][j]+" ");
-				System.out.println();
-			}
+					      {(int)Math.round(Math.sin(zAngle)),(int)Math.round(Math.cos(zAngle)),0},
+					      {0,0,1}};
 			
 			Iterator<Cube> it=cubes.iterator();
 			while(it.hasNext())
@@ -171,10 +165,8 @@ public class Block {
 								
 				for(int i=0;i<out.length;i++)
 					for(int j=0;j<xRot[i].length;j++)
-					{
 						out[i]+=xRot[i][j]*in[j];
-						System.out.println("out["+i+"]: "+out[i]);
-					}
+				
 				for(int i=0;i<in.length;i++)
 				{
 						in[i]=out[i];
@@ -225,6 +217,31 @@ public class Block {
 			maxZ+=tz;
 		}
 		
+		public void addBlock(Vector3D v, Block b)
+		{
+			int dx,dy,dz;
+			if(v==null)
+			{
+				dx=dy=dz=0;
+			}
+			else
+			{
+				dx=v.getX(); dy=v.getY(); dz=v.getZ();
+			}
+			Iterator<Cube> it = b.getCubes().iterator();
+			while(it.hasNext())
+			{
+				Cube oc=it.next();
+				this.cubes.add(new Cube(oc.getX()+dx, oc.getY()+dy, oc.getZ()+dz));
+				if(oc.getX()+dx>maxX) maxX=oc.getX()+dx;
+				if(oc.getX()+dx<minX) minX=oc.getX()+dx;
+				if(oc.getY()+dy>maxY) maxY=oc.getY()+dy;
+				if(oc.getY()+dy<minY) minY=oc.getY()+dy;
+				if(oc.getZ()+dz>maxZ) maxZ=oc.getZ()+dz;
+				if(oc.getZ()+dz<minZ) minZ=oc.getZ()+dz;
+			}
+		}
+		
 		public int getMaxX()
 		{
 			return maxX;
@@ -247,12 +264,19 @@ public class Block {
 		{
 			return cubes;
 		}
-
-		/**
-		 * Gets the structure for this instance.
-		 *
-		 * @return The structure.
-		 */
+		
+		public int[][][] getMatrix()
+		{
+			int[][][] result=new int[maxX-minX+1][maxY-minY+1][maxZ-minZ+1];
+			Iterator<Cube> it=cubes.iterator();
+			while(it.hasNext())
+			{
+				Cube cc=it.next();
+				result[cc.getX()-minX][cc.getY()-minY][cc.getZ()-minZ]=1;
+			}
+			return result;
+		}
+		
 		public String getStructure()
 		{
 			return this.structure;

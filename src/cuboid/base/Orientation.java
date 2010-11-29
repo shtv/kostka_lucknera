@@ -26,4 +26,14 @@ public class Orientation {
 		{
 			return angleZ;
 		}
+		
+		public Orientation clone()
+		{
+			return new Orientation(this.angleX, this.angleY, this.angleZ);
+		}
+		
+		public String toString()
+		{
+			return "("+angleX+","+angleY+","+angleZ+")";
+		}
 }

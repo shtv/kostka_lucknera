@@ -1,44 +1,33 @@
 package cuboid.base;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Solution {
 		private List<Move> sequence;
-		private Integer volume;
 
-		/**
-		 * Constructs a new instance.
-		 */
+		private int volume;
+
 		public Solution()
 		{
-			sequence = new ArrayList<Move>();
+			sequence=new LinkedList<Move>();
+			volume=0;
 		}
-
+		
+		public List<Move> getSequence() {
+			return sequence;
+		}
+		
+		public void addNextMove(Move m)
+		{
+			sequence.add(m);
+			volume+=m.getB().getCubesCount();
+		}
+		
 		public int compareTo(Object o) {
 			Solution other = (Solution) o;
 			
 			return getVolume().compareTo(other.getVolume());
-		}
-
-		/**
-		 * Gets the sequence for this instance.
-		 *
-		 * @return The sequence.
-		 */
-		public List<Move> getSequence()
-		{
-			return this.sequence;
-		}
-
-		/**
-		 * Sets the sequence for this instance.
-		 *
-		 * @param sequence The sequence.
-		 */
-		public void setSequence(List<Move> sequence)
-		{
-			this.sequence = sequence;
 		}
 
 		public Integer getVolume(){
@@ -55,15 +44,5 @@ public class Solution {
 			if(a*b*c>numberOfClones){ // gdy niepełny
 				;
 			}
-		}
-
-		/**
-		 * Sets the volume for this instance.
-		 *
-		 * @param volume The volume.
-		 */
-		public void setVolume(int volume)
-		{
-			this.volume = volume;
 		}
 }
