@@ -31,7 +31,8 @@ public class Block {
 			this.minX=b.getMinX();
 			this.minY=b.getMinY();
 			this.minZ=b.getMinZ();
-			this.structure=new String(b.getStructure());
+			if(b.getStructure()!=null)
+				this.structure=new String(b.getStructure());
 			cubes=new HashSet<Cube>();
 			Iterator<Cube> it=b.cubes.iterator();
 			while(it.hasNext())
@@ -44,7 +45,7 @@ public class Block {
 			Stack<Cube> stack = new Stack<Cube>();
 			char[] cArray = structure.toCharArray();
 			Cube prev = new Cube(0,0,0);
-			cubes.add(prev);
+			add(prev.getX(),prev.getY(),prev.getZ());
 			for(char c:cArray){
 				switch(c){
 					case '(':
@@ -77,7 +78,7 @@ public class Block {
 						throw new BlockSetFormatException("Char "+c+" is not allowed in structure.");
 				}
 //				System.out.println("dodajemy = "+prev);
-				cubes.add(prev);
+				add(prev.getX(),prev.getY(),prev.getZ());
 			}
 			if(!stack.isEmpty())
 				throw new BlockSetFormatException("More opening brackets than closing one's in structure.");
