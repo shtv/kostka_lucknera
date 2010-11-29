@@ -38,11 +38,64 @@ public class Solution {
 			/*
 			 * a, b i c to dopuszczalne liczby klonów wzdłuż kolejnych osi
 			 */
-			int a = 1;
-			int b = 1;
-			int c = 1;
+			Block firstBlock = sequence.get(0).getB();
+			firstBlock.orient(sequence.get(0).getOrientation());
+			int maxX = firstBlock.getMaxX();
+			int minX = firstBlock.getMinX();
+			int maxY = firstBlock.getMaxY();
+			int minY = firstBlock.getMinY();
+			int maxZ = firstBlock.getMaxZ();
+			int minZ = firstBlock.getMinZ();
+			for(Move move:sequence){
+				Block block = move.getB();
+				block.orient(move.getOrientation());
+				if(block.getMaxX()>maxX)
+					maxX = block.getMaxX();
+				else if(block.getMinX()<minX)
+					minX = block.getMinX();
+				if(block.getMaxY()>maxY)
+					maxY = block.getMaxY();
+				else if(block.getMinY()<minY)
+					minY = block.getMinY();
+				if(block.getMaxZ()>maxZ)
+					maxZ = block.getMaxZ();
+				else if(block.getMinZ()<minZ)
+					minZ = block.getMinZ();
+			}
+			int a = (maxX-minX)/lengthLimit; // maks. dopuszczalnych klonów wzdłuż osi X
+			int b = (maxY-minY)/lengthLimit;
+			int c = (maxZ-minZ)/lengthLimit;
+			int l = sequence.size();
+			int dx = maxX-minX;
+			int dy = maxY-minY;
+			int dz = maxZ-minZ;
 			if(a*b*c>numberOfClones){ // gdy niepełny
-				;
+				int m = Math.max(a,Math.max(b,c));
+				if(m==a){
+					for(int i=1;i<m;++i){
+						for(int j=0;j<l;++j){
+							Move move = (Move)sequence.get(j);
+							move.getFit().setX(move.getFit().getX()+i*dx);
+							sequence.add(move);
+						}
+					}
+				}else if(m==b){
+					for(int i=1;i<m;++i){
+						for(int j=0;j<l;++j){
+							Move move = (Move)sequence.get(j);
+							move.getFit().setY(move.getFit().getY()+i*dy);
+							sequence.add(move);
+						}
+					}
+				}else{
+					for(int i=1;i<m;++i){
+						for(int j=0;j<l;++j){
+							Move move = (Move)sequence.get(j);
+							move.getFit().setZ(move.getFit().getZ()+i*dz);
+							sequence.add(move);
+						}
+					}
+				}
 			}
 		}
 }

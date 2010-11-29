@@ -23,6 +23,10 @@ public class Move {
 			this.orientation=orientation;
 			this.orId = orId;
 		}
+
+		protected Object clone() throws CloneNotSupportedException {
+			return new Move(id,new Block(b),(Vector3D)fit.clone(),(Orientation)orientation.clone(),orId);
+		}
 		
 		public void setFit(Vector3D fit) {
 			this.fit = fit;
