@@ -347,7 +347,7 @@ public class ExactSolutionFinder implements SolutionFinder
 				ListElement le=it.next();
 				cs.addNextMove(new Move(le.getN(),new Block(le.getBaseBlock()),
 						le.getFit().clone(),
-						le.getOrientation().clone()));
+						le.getOrientation().clone(),le.oidx));
 			}
 			if(bestSolution==null || bestSolution.getVolume()<cs.getVolume())
 			{

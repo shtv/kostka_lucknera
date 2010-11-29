@@ -1,10 +1,11 @@
 package cuboid.base;
 
 public class Move {
-	    private int id;
+			private int id;
 		private Block b;
 		private Vector3D fit;
 		private Orientation orientation;
+		int orId;
 		
 		public Move()
 		{
@@ -14,12 +15,13 @@ public class Move {
 			orientation=null;
 		}
 		
-		public Move(int id,Block block, Vector3D fit, Orientation orientation)
+		public Move(int id,Block block, Vector3D fit, Orientation orientation,int orId)
 		{
 			this.setId(id);
 			this.b=block;
 			this.fit=fit;
 			this.orientation=orientation;
+			this.orId = orId;
 		}
 		
 		public void setFit(Vector3D fit) {
@@ -37,6 +39,26 @@ public class Move {
 		public void setOrientation(Orientation orientation) {
 			this.orientation = orientation;
 		}
+		/**
+		 * Gets the orId for this instance.
+		 *
+		 * @return The orId.
+		 */
+		public int getOrId()
+		{
+			return this.orId;
+		}
+
+		/**
+		 * Sets the orId for this instance.
+		 *
+		 * @param orId The orId.
+		 */
+		public void setOrId(int orId)
+		{
+			this.orId = orId;
+		}
+
 		public Orientation getOrientation() {
 			return orientation;
 		}
