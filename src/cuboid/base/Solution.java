@@ -35,6 +35,12 @@ public class Solution {
 		}
 
 		public void clone(List<BlockCollection> blockCollections,int numberOfClones,int lengthLimit){
+			System.out.println("1. clone blockCollections:");
+			for(BlockCollection bc:blockCollections)
+				System.out.println(bc);
+			System.out.println("nofCl = "+numberOfClones);
+			System.out.println("lengthLIm = "+lengthLimit);
+			System.out.println("1. clone blockCollections: end");
 			/*
 			 * a, b i c to dopuszczalne liczby klonów wzdłuż kolejnych osi
 			 */
@@ -46,9 +52,13 @@ public class Solution {
 			int minY = firstBlock.getMinY();
 			int maxZ = firstBlock.getMaxZ();
 			int minZ = firstBlock.getMinZ();
+			System.out.println("maxX = "+maxX+", minX = "+minX+", maxY = "+maxY+", minY = "+minY+", maxZ = "+maxZ+", minZ = "+minZ);
 			for(Move move:sequence){
 				Block block = move.getB();
+				System.out.println(block);
 				block.orient(move.getOrientation());
+				System.out.println("after orient:");
+				System.out.println(block);
 				if(block.getMaxX()>maxX)
 					maxX = block.getMaxX();
 				else if(block.getMinX()<minX)
@@ -62,19 +72,20 @@ public class Solution {
 				else if(block.getMinZ()<minZ)
 					minZ = block.getMinZ();
 			}
-			int a = (maxX-minX)/lengthLimit; // maks. dopuszczalnych klonów wzdłuż osi X
-			int b = (maxY-minY)/lengthLimit;
-			int c = (maxZ-minZ)/lengthLimit;
+			int a = lengthLimit/(1+maxX-minX); // maks. dopuszczalnych klonów wzdłuż osi X
+			int b = (lengthLimit/1+maxY-minY);
+			int c = lengthLimit/(1+maxZ-minZ);
+			System.out.println("a="+a+",b="+b+",c="+c);
 			int l = sequence.size();
-			int dx = maxX-minX;
-			int dy = maxY-minY;
-			int dz = maxZ-minZ;
+			int dx = maxX-minX+1;
+			int dy = maxY-minY+1;
+			int dz = maxZ-minZ+1;
 			if(a*b*c>numberOfClones){ // gdy niepełny
 				int m = Math.max(a,Math.max(b,c));
 				if(m==a){
 					for(int i=1;i<m;++i){
 						for(int j=0;j<l;++j){
-							Move move = (Move)sequence.get(j);
+							Move move = (Move)(sequence.get(j)).clone();
 							move.getFit().setX(move.getFit().getX()+i*dx);
 							sequence.add(move);
 						}
@@ -97,5 +108,14 @@ public class Solution {
 					}
 				}
 			}
+		}
+
+		public String toString() {
+			StringBuffer sb = new StringBuffer();
+			sb.append("solution[volume="+volume+",sequence=");
+			for(Move move:sequence)
+				sb.append(move+",");
+			sb.append("]");
+			return sb.toString();
 		}
 }

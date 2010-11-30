@@ -24,7 +24,7 @@ public class Move {
 			this.orId = orId;
 		}
 
-		protected Object clone() throws CloneNotSupportedException {
+		protected Object clone() {
 			return new Move(id,new Block(b),(Vector3D)fit.clone(),(Orientation)orientation.clone(),orId);
 		}
 		
@@ -88,5 +88,9 @@ public class Move {
 		public int getZ()
 		{
 			return fit.getZ();
+		}
+
+		public String toString() {
+			return "move[blockId="+id+"]";
 		}
 }

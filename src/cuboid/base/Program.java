@@ -116,7 +116,7 @@ public class Program {
 			if(solution != null){
 				List<Move> moves = solution.getSequence();
 				for(Move move:moves)
-					writer.write("\n\t\t<block id=\""+move.getId()+"\" x=\""+move.getX()+"\" y=\""+move.getY()+"\" z=\""+move.getZ()+"\" rotationMask=\""+move.getOrId()+"\"/>");
+					writer.write("\n\t\t<block id=\""+move.getId()+"\" x=\""+move.getX()+"\" y=\""+move.getY()+"\" z=\""+move.getZ()+"\""+(move.getOrId()>0?" rotationMask=\""+move.getOrId()+"\"":"")+"/>");
 			}
 			writer.write("\n\t</solution>");
 			writer.write("\n</blocksProject>");
@@ -148,9 +148,6 @@ public class Program {
 		System.out.println("Read: OK.");
 
 		List<SolutionFinder> algorithm=new LinkedList<SolutionFinder>();
-
-		// do usunięcia!
-		saveToFile(new Solution(),args[1]);
 
 		int param=20;
 

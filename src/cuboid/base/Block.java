@@ -102,7 +102,7 @@ public class Block {
 					minZ = cube.getZ();
 
 			}
-			return Math.max(maxX-minX,Math.max(maxY-minY,maxZ-minZ));
+			return 1+Math.max(maxX-minX,Math.max(maxY-minY,maxZ-minZ));
 		}
 		
 		/**

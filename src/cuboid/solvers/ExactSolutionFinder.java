@@ -661,6 +661,8 @@ public class ExactSolutionFinder implements SolutionFinder
 		
 		public Solution solve(List<BlockCollection> lbc)
 		{			
+			if(lbc.isEmpty())
+				return null;
 			int counter=0;
 			int maxlength=Integer.MIN_VALUE;
 			permGenerated=false;

@@ -164,7 +164,14 @@ public class CloningAlgorithm implements SolutionFinder {
 		if(originSolution == null)
 			return null;
 
+		System.out.println("1.originSolution = "+originSolution);
 		originSolution.clone(blockCollections,copiesNumber,lengthLimit);
+		System.out.println("2.originSolution = "+originSolution);
+
+		System.out.println("3.usedBlockCollections:");
+		for(BlockCollection bc:blockCollections)
+			System.out.println(bc);
+		System.out.println("3.usedBlockCollections: end");
 
 		return originSolution;
 	}
@@ -176,23 +183,38 @@ public class CloningAlgorithm implements SolutionFinder {
 			usedBlockCollections.add(new BlockCollection(proportion.getBlockCollection().getBlock(),
 						proportion.getUsedAmount()));
 		}
+		System.out.println("1.usedBlockCollections:");
+		for(BlockCollection bc:usedBlockCollections)
+			System.out.println(bc);
+		System.out.println("1.usedBlockCollections: end");
 
 		Solution solution = algorithm.solve(usedBlockCollections);
+		System.out.println("solution = "+solution);
+
+		System.out.println("2.usedBlockCollections:");
+		for(BlockCollection bc:usedBlockCollections)
+			System.out.println(bc);
+		System.out.println("2.usedBlockCollections: end");
 
 		return cloneSolution(blockCollections,solution);
 	}
 
 	public void findLengthLimit(List<BlockCollection> blockCollections){
 		lengthLimit = 0;
+//		System.out.println("find blockCols:");
 		for(BlockCollection bc:blockCollections){
+//			System.out.println(bc);
 			int m = bc.getBlock().computeMaxLength();
+//			System.out.println("m = "+m);
 			if(m>lengthLimit)
 				lengthLimit = m;
 		}
+//		System.out.println("find blockCols: end");
 	}
 
 	public Solution solve(List<BlockCollection> blockCollections) {
 		findLengthLimit(blockCollections);
+//		System.out.println("lenLim = "+lengthLimit);
 		generateFirstProportions(blockCollections);
 
 		if(proportions.isEmpty()) return null;
