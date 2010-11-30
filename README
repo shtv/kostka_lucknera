@@ -11,6 +11,7 @@ where:
 	- 1 - exact
 	- 2 - aproximation
 	- 3 - cloning
+- viz - visualization (on when viz = 1)
 =============================================
 Do wizualizacji wymagana jest biblioteka jogl-1.1.1.
 Mozna ja pobrac ze strony 

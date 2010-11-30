@@ -85,6 +85,9 @@ public class CloningAlgorithm implements SolutionFinder {
 			usedAmount = 1;
 		}
 
+		public String toString() {
+			return "proportion[block="+blockCollection+",usedAmount="+usedAmount+"]";
+		}
 	}
 
 	/**
@@ -198,6 +201,9 @@ public class CloningAlgorithm implements SolutionFinder {
 		SolutionFinder algorithm = new ExactSolutionFinder();
 		int i = 1;
 		do{
+			System.out.println("Let's see generated proportions:");
+			for(Proportion proportion:proportions)
+				System.out.println("proportion: "+proportion);
 			Solution solution = findSolution(blockCollections,algorithm);
 			if(solution != null && (bestSolution==null ||
 						(solution.compareTo(bestSolution)>0)))
@@ -210,7 +216,7 @@ public class CloningAlgorithm implements SolutionFinder {
 
 		return bestSolution;
 	}
-	
+
 	public String toString()
 	{
 		return "CloningAlgorithm";

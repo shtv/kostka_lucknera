@@ -1,19 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <blocksProject>
 	<blockSet>
-		<!-- zbiór klocków; zawiera przykładowe klocki -->
-		<!-- klocek z 1 sześcianu - „kropka” -->
-		<block amount="1" structure="" />
-		<!-- klocek z 4 sześcianów - „kreska” długości 4
-			<block amount="1" structure="UUU" />
-			-->
-		<!-- 2 klocki z 4 sześcianów każdy - „litera L” -->
-		<block amount="2" structure="SSE" />
-		<!-- 2 klocki z 5 sześcianów każdy - „litera T” -->
-		<!-- 3 klocki z z 4 sześcianów każdy - „zygzag” -->
-		<!-- klocek z 4 sześcianów - „róg” -->
-		<!-- klocek z 4 sześcianów - płaski kwadrat 2x2 -->
-		<!-- klocek z 10 sześcianów - płaski kwadrat 3x3
-			z wypustką po środku -->
+		<block amount="2" structure=""/>
+		<block amount="2" structure="SSE"/>
 	</blockSet>
 </blocksProject>

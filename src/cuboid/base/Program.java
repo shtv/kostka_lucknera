@@ -27,7 +27,7 @@ public class Program {
 	static List<BlockCollection> blockCollections;
 
 	static void showValidUsage(){
-		System.out.println("Valid usage:\njava -jar kostka2010.jar input output nr\n\nwhere:\n input - block set file\n output - solution file\n nr - algorithm number (1 - exact, 2 - aproximation, 3 - cloning)");
+		System.out.println("Valid usage:\njava -jar kostka2010.jar input output nr viz\n\nwhere:\n input - block set file\n output - solution file\n nr - algorithm number (1 - exact, 2 - aproximation, 3 - cloning)\n viz - visualization (on when viz = 1)");
 	}
 
 	static void readFile(String filename){
@@ -124,7 +124,7 @@ public class Program {
 	}
 
 	public static void main(String[] args){
-		if(args.length!=3){
+		if(args.length!=4){
 			System.err.println("Wrong usage!\n");
 			showValidUsage();
 			return;
@@ -145,7 +145,7 @@ public class Program {
 				algorithm.add(new AproximationAlgorithm());
 				break;
 			case 3:
-				algorithm.add(new CloningAlgorithm(10,0.9));
+				algorithm.add(new CloningAlgorithm(1,0.9));
 				break;
 			case 4:
 				algorithm.add(new ExactSolutionFinder());
@@ -170,7 +170,8 @@ public class Program {
 			if(solution!=null)
 			{
 				System.out.println("SOLUTION VOLUME: "+solution.getVolume());
-				(new VisualisationWindow(solution)).setVisible(true);
+				if(args[3].equals("1"))
+					(new VisualisationWindow(solution)).setVisible(true);
 			}
 			else
 				System.out.println("COULDN'T FIND SOLUTION");
