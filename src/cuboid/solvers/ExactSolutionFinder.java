@@ -682,6 +682,13 @@ public class ExactSolutionFinder implements SolutionFinder
 				}
 				counter++;
 			}
+			
+			if(blocks.size()==1)
+			{
+				onlyOneBlock();
+				return bestSolution;
+			}
+			
 			nfhc=new NextFitHelpClass[blocks.size()];
 			MAX_LENGTH=maxlength;
 			do
@@ -703,6 +710,20 @@ public class ExactSolutionFinder implements SolutionFinder
 			}while(permGenerated);
 //			System.out.println("VOLUME: "+bestSolution.getVolume());
 			return bestSolution;
+		}
+		
+		protected void onlyOneBlock()
+		{
+			Block b = blocks.get(0).getBaseBlock();
+			int dx=b.getMaxX()-b.getMinX()+1;
+			int dy=b.getMaxY()-b.getMinY()+1;
+			int dz=b.getMaxZ()-b.getMinZ()+1;
+			if(dx*dy*dz==b.getCubesCount())
+			{
+				bestSolution=new Solution();
+				bestSolution.addNextMove(new Move(0, new Block(b), new Vector3D(0,0,0),
+						new Orientation(0,0,0), 0));
+			}
 		}
 		
 		public String toString()
