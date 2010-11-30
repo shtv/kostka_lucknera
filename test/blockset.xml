@@ -10,15 +10,10 @@
 		<!-- 2 klocki z 4 sześcianów każdy - „litera L” -->
 		<block amount="2" structure="SSE" />
 		<!-- 2 klocki z 5 sześcianów każdy - „litera T” -->
-		<block amount="2" structure="UU(W)E" />
 		<!-- 3 klocki z z 4 sześcianów każdy - „zygzag” -->
-		<block amount="3" structure="EUE" />
 		<!-- klocek z 4 sześcianów - „róg” -->
-		<block amount="1" structure="(N)(E)U" />
 		<!-- klocek z 4 sześcianów - płaski kwadrat 2x2 -->
-		<block amount="1" structure="ENW" />
 		<!-- klocek z 10 sześcianów - płaski kwadrat 3x3
 			z wypustką po środku -->
-		<block amount="1" structure="EENW(WNEE)U" />
 	</blockSet>
 </blocksProject>
