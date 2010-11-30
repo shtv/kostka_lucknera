@@ -104,6 +104,10 @@ public class CloningAlgorithm implements SolutionFinder {
 	}
 
 	public void computeCopiesNumber(){
+		if(proportions.isEmpty()){
+			copiesNumber = 0;
+			return;
+		}
 		copiesNumber = proportions.get(0).getAmount()/proportions.get(0).getUsedAmount();
 		
 		for(Proportion proportion:proportions){
@@ -119,10 +123,14 @@ public class CloningAlgorithm implements SolutionFinder {
 			if(blockCollection.getAmount()>1)
 				proportions.add(new Proportion(blockCollection,1));
 
+		System.out.println("before compute");
 		computeCopiesNumber();
+		System.out.println("afrer compute");
 	}
 
 	void increaseProportions(){
+		if(proportions.isEmpty())
+			return;
 		Proportion p = proportions.get(0);
 
 		for(Proportion proportion:proportions)
@@ -215,7 +223,7 @@ public class CloningAlgorithm implements SolutionFinder {
 
 	public Solution solve(List<BlockCollection> blockCollections) {
 		findLengthLimit(blockCollections);
-//		System.out.println("lenLim = "+lengthLimit);
+		System.out.println("lenLim = "+lengthLimit);
 		generateFirstProportions(blockCollections);
 
 		if(proportions.isEmpty()) return null;
