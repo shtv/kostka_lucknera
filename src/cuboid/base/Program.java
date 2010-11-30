@@ -161,8 +161,10 @@ public class Program {
 		if(args.length==5)
 			param1=Integer.parseInt(args[4]);
 		if(param1<0) param1=-param1;
-		if(args.length==6)
+		if(args.length==6){
+			param1=Integer.parseInt(args[4]);
 			param2=Double.parseDouble(args[5]);
+		}
 
 		switch(Integer.parseInt(args[3])){
 			case 1:
@@ -172,11 +174,11 @@ public class Program {
 				algorithm.add(new AproximationAlgorithm(param));
 				break;
 			case 3:
-				algorithm.add(new CloningAlgorithm(10,0.9));
+				algorithm.add(new CloningAlgorithm(param1,param2));
 				break;
 			case 4:
 				algorithm.add(new ExactSolutionFinder());
-				algorithm.add(new AproximationAlgorithm(20));
+				algorithm.add(new AproximationAlgorithm(10));
 				algorithm.add(new CloningAlgorithm(10, 0.9));
 				break;
 			default:
@@ -191,6 +193,9 @@ public class Program {
 			System.out.println();
 			System.out.println(s);
 			System.out.println("---------------------------");
+			for(BlockCollection bc:blockCollections)
+				System.out.println(bc);
+			System.out.println("---------------------------");
 			long start=System.currentTimeMillis();
 			Solution solution = s.solve(blockCollections);
 			long end=System.currentTimeMillis();
@@ -200,6 +205,8 @@ public class Program {
 				System.out.println("SOLUTION VOLUME: "+solution.getVolume());
 				if(args[2].equals("1"))
 					(new VisualisationWindow(solution)).setVisible(true);
+
+				System.out.println("solution = "+solution);
 			}
 			else
 				System.out.println("COULDN'T FIND SOLUTION");

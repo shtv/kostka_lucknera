@@ -83,7 +83,7 @@ public class AproximationAlgorithm extends ExactSolutionFinder {
 			return this.nfhc[currentFit];
 		}
 		
- 		public boolean nextFit()
+		public boolean nextFit()
 		{
 			currentFit++;
 			return currentFit<C && nfhc[currentFit]!=null && fit[currentFit]!=null;
@@ -108,6 +108,14 @@ public class AproximationAlgorithm extends ExactSolutionFinder {
 		choosenFits=new LinkedList<ChoosenFits>();
 	}
 	
+	/**
+	 * Constructs a new instance.
+	 */
+	public AproximationAlgorithm()
+	{
+		this(1);
+	}
+
 	private float fitnessScore(int idx)
 	{
 		float score=0;

@@ -100,6 +100,7 @@ public class CloningAlgorithm implements SolutionFinder {
 	{
 		this.limit = limit;
 		this.usedLimit = usedLimit;
+		System.out.println("cloningAlgo with: limit = "+limit+", usedLimit = "+usedLimit);
 		proportions = new ArrayList<Proportion>();
 	}
 
@@ -226,6 +227,7 @@ public class CloningAlgorithm implements SolutionFinder {
 		System.out.println("lenLim = "+lengthLimit);
 		generateFirstProportions(blockCollections);
 
+		System.out.println("first proportions number = "+proportions.size());
 		if(proportions.isEmpty()) return null;
 
 		Solution bestSolution = null; 

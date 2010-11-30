@@ -44,8 +44,13 @@ public class Solution {
 			/*
 			 * a, b i c to dopuszczalne liczby klonów wzdłuż kolejnych osi
 			 */
-			Block firstBlock = sequence.get(0).getB();
+			Block firstBlock = new Block(sequence.get(0).getB());
 			firstBlock.orient(sequence.get(0).getOrientation());
+			for(Cube cube:firstBlock.getCubes()){
+				cube.setX(cube.getX()+sequence.get(0).getX());
+				cube.setY(cube.getY()+sequence.get(0).getY());
+				cube.setZ(cube.getZ()+sequence.get(0).getZ());
+			}
 			int maxX = firstBlock.getMaxX();
 			int minX = firstBlock.getMinX();
 			int maxY = firstBlock.getMaxY();
@@ -54,10 +59,16 @@ public class Solution {
 			int minZ = firstBlock.getMinZ();
 			System.out.println("maxX = "+maxX+", minX = "+minX+", maxY = "+maxY+", minY = "+minY+", maxZ = "+maxZ+", minZ = "+minZ);
 			for(Move move:sequence){
-				Block block = move.getB();
+				Block block = new Block(move.getB());
 				System.out.println(block);
 				block.orient(move.getOrientation());
 				System.out.println("after orient:");
+				for(Cube cube:block.getCubes()){
+					cube.setX(cube.getX()+move.getX());
+					cube.setY(cube.getY()+move.getY());
+					cube.setZ(cube.getZ()+move.getZ());
+				}
+				block.resetMaxMin();
 				System.out.println(block);
 				if(block.getMaxX()>maxX)
 					maxX = block.getMaxX();
@@ -72,8 +83,9 @@ public class Solution {
 				else if(block.getMinZ()<minZ)
 					minZ = block.getMinZ();
 			}
+			System.out.println("maxX = "+maxX+", minX = "+minX+", maxY = "+maxY+", minY = "+minY+", maxZ = "+maxZ+", minZ = "+minZ);
 			int a = lengthLimit/(1+maxX-minX); // maks. dopuszczalnych klonów wzdłuż osi X
-			int b = (lengthLimit/1+maxY-minY);
+			int b = lengthLimit/(1+maxY-minY);
 			int c = lengthLimit/(1+maxZ-minZ);
 			System.out.println("a="+a+",b="+b+",c="+c);
 			int l = sequence.size();
@@ -83,6 +95,7 @@ public class Solution {
 			if(a*b*c>numberOfClones){ // gdy niepełny
 				int m = Math.max(a,Math.max(b,c));
 				if(m==a){
+					System.out.println("wybrano a");
 					for(int i=1;i<m;++i){
 						for(int j=0;j<l;++j){
 							Move move = (Move)(sequence.get(j)).clone();
@@ -107,6 +120,23 @@ public class Solution {
 						}
 					}
 				}
+			}else{
+				System.out.println("pełny");
+				for(int i=0;i<a;++i)
+					for(int j=0;j<b;++j)
+						for(int k=0;k<c;++k){
+							System.out.println("i="+i+",j="+j+",k="+k);
+							if(i==0 && j==0 && k==0) continue;
+							for(int p=0;p<l;++p){
+								System.out.println("p="+p);
+								Move move = (Move)(sequence.get(p)).clone();
+								Vector3D fit = move.getFit();
+								fit.setX(fit.getX()+i*dx);
+								fit.setY(fit.getY()+j*dy);
+								fit.setZ(fit.getZ()+k*dz);
+								sequence.add(move);
+							}
+						}
 			}
 		}
 

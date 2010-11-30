@@ -139,6 +139,28 @@ public class Block {
 			if(y<minY) minY=y;
 			if(z<minZ) minZ=z;
 		}
+
+		public void resetMaxMin(){
+			Iterator<Cube> it = cubes.iterator();
+			Cube cube = it.next();
+			maxX = cube.getX();
+			maxY = cube.getY();
+			maxZ = cube.getZ();
+			minX = cube.getX();
+			minY = cube.getY();
+			minZ = cube.getZ();
+			for(Cube cube2:cubes){
+				int x = cube2.getX();
+				int y = cube2.getY();
+				int z = cube2.getZ();
+				if(x>maxX) maxX=x;
+				if(y>maxY) maxY=y;
+				if(z>maxZ) maxZ=z;
+				if(x<minX) minX=x;
+				if(y<minY) minY=y;
+				if(z<minZ) minZ=z;
+			}
+		}
 		
 		public void orient(Orientation o)
 		{
