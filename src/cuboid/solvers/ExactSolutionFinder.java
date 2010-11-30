@@ -660,10 +660,10 @@ public class ExactSolutionFinder implements SolutionFinder
 //				Collections.swap(blocks, 1, 3);
 //				//blocks.remove(blocks.size()-1);
 //				//
-				System.out.print("PERM: ");
-				for(int i=0;i<blocks.size();i++)
-					System.out.print(blocks.get(i).getN()+" ");
-				System.out.println();
+//				System.out.print("PERM: ");
+//				for(int i=0;i<blocks.size();i++)
+//					System.out.print(blocks.get(i).getN()+" ");
+//				System.out.println();
 				checkPerm();
 				if(maxSolutionFound)
 					break;
@@ -673,5 +673,10 @@ public class ExactSolutionFinder implements SolutionFinder
 			}while(permGenerated);
 //			System.out.println("VOLUME: "+bestSolution.getVolume());
 			return bestSolution;
+		}
+		
+		public String toString()
+		{
+			return "ExactSolutionFinder";
 		}
 }

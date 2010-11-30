@@ -113,7 +113,7 @@ public class AproximationAlgorithm extends ExactSolutionFinder {
 		}
 		if((maxx-minx)<MAX_LENGTH && (maxy-miny)<MAX_LENGTH && (maxz-minz)<MAX_LENGTH)
 			properBlock=true;
-		volume=(maxx-minx)*(maxy-miny)*(maxz-minz);
+		volume=(maxx-minx+1)*(maxy-miny+1)*(maxz-minz+1);
 		if(properBlock)
 			score=(float)sum/(float)volume;
 		return score;
@@ -135,12 +135,13 @@ public class AproximationAlgorithm extends ExactSolutionFinder {
 				for(int i=0;i<cf.C;i++)
 					if(score>cf.getScore(i))
 					{
-						cf.setFit(i, ce.getFit());
+						cf.setFit(i, ce.getFit().clone());
 						cf.setOidx(i, ce.getOidx());
 						cf.setScore(i,score);
 						break;
 					}
 			}
+			ce.incOidx();
 		}
 	}
 	
@@ -203,5 +204,10 @@ public class AproximationAlgorithm extends ExactSolutionFinder {
 				continue;
 			}		
 		}
+	}
+	
+	public String toString()
+	{
+		return "AproximationAlgorithm";
 	}
 }

@@ -6,6 +6,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -15,6 +17,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import cuboid.base.visualisation.VisualisationWindow;
 import cuboid.solvers.AproximationAlgorithm;
 import cuboid.solvers.CloningAlgorithm;
 import cuboid.solvers.ExactSolutionFinder;
@@ -129,29 +132,52 @@ public class Program {
 		readFile(args[0]);
 		System.out.println("Read: OK.");
 
-		SolutionFinder algorithm;
+		List<SolutionFinder> algorithm=new LinkedList<SolutionFinder>();
 
 		// do usunięcia!
 		saveToFile(new Solution(),args[1]);
 
 		switch(Integer.parseInt(args[2])){
 			case 1:
-				algorithm = new ExactSolutionFinder();
+				algorithm.add(new ExactSolutionFinder());
 				break;
 			case 2:
-				algorithm = new AproximationAlgorithm();
+				algorithm.add(new AproximationAlgorithm());
 				break;
 			case 3:
-				algorithm = new CloningAlgorithm(10,0.9);
+				algorithm.add(new CloningAlgorithm(10,0.9));
 				break;
+			case 4:
+				algorithm.add(new ExactSolutionFinder());
+				algorithm.add(new AproximationAlgorithm());
+				algorithm.add(new CloningAlgorithm(10, 0.9));
 			default:
 				showValidUsage();
 				return;
 		}
 
-		Solution solution = algorithm.solve(blockCollections);
-
-		saveToFile(solution,args[1]);
+		Iterator<SolutionFinder> it=algorithm.iterator();
+		while(it.hasNext())
+		{
+			SolutionFinder s=it.next();
+			System.out.println();
+			System.out.println(s);
+			System.out.println("---------------------------");
+			long start=System.currentTimeMillis();
+			Solution solution = s.solve(blockCollections);
+			long end=System.currentTimeMillis();
+			System.out.println("TIME: "+(end-start)+"ms");
+			if(solution!=null)
+			{
+				System.out.println("SOLUTION VOLUME: "+solution.getVolume());
+				(new VisualisationWindow(solution)).setVisible(true);
+			}
+			else
+				System.out.println("COULDN'T FIND SOLUTION");
+			
+			if(algorithm.size()==1)
+				saveToFile(solution,args[1]);
+		}
 	}
 
 }

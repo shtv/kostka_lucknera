@@ -11,3 +11,22 @@ where:
 	- 1 - exact
 	- 2 - aproximation
 	- 3 - cloning
+=============================================
+Do wizualizacji wymagana jest biblioteka jogl-1.1.1.
+Mozna ja pobrac ze strony 
+https://jogl.dev.java.net/servlets/ProjectDocumentList?folderID=9260&expandFolder=9260&folderID=0
+
+Aby skompilowac i uruchomic program przy pomocy ant'a pod linuksem nalezy:
+(1) ant -lib [sciezka do pliku gluegen-rt.jar] -lib [sciezka do pliku jogl.jar]
+(2) nalezy ustawic zmienna srodowiskowa LD_LIBRARY_PATH na folder z plikami bibliotek natywnych 
+	dla jogl'a (libgluegen-rt.so libjogl.so libjogl_awt.so libjogl_cg.so)
+(3) java -jar kostka2010.jar input output nr
+
+=============================================
+Sterowanie wizualizacja rozwiazania:
+
+0/9 - zmiana odleglosci od klocka
+W/S/A/D - obracanie klocka
+1/2 - cofa/wykonuje jeden ruch
+
+=============================================

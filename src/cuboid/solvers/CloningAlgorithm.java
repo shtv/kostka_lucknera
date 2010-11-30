@@ -210,4 +210,9 @@ public class CloningAlgorithm implements SolutionFinder {
 
 		return bestSolution;
 	}
+	
+	public String toString()
+	{
+		return "CloningAlgorithm";
+	}
 }
