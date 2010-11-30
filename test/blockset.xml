@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <blocksProject>
 	<blockSet>
-		<block amount="4" structure=""/>
+		<block amount="1" structure=""/>
+		<!--
 		<block amount="2" structure="SSE"/>
+	-->
 	</blockSet>
 </blocksProject>

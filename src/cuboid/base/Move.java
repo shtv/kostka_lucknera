@@ -91,6 +91,6 @@ public class Move {
 		}
 
 		public String toString() {
-			return "move[blockId="+id+"]";
+			return "move[blockId="+id+",fit="+fit.toString()+"]";
 		}
 }

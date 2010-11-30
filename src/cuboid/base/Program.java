@@ -172,13 +172,13 @@ public class Program {
 				algorithm.add(new AproximationAlgorithm(param));
 				break;
 			case 3:
-				algorithm.add(new CloningAlgorithm(param1,param2));
+				algorithm.add(new CloningAlgorithm(10,0.9));
 				break;
 			case 4:
 				algorithm.add(new ExactSolutionFinder());
-
-				algorithm.add(new AproximationAlgorithm(param));
-				algorithm.add(new CloningAlgorithm(param1,param2));
+				algorithm.add(new AproximationAlgorithm(20));
+				algorithm.add(new CloningAlgorithm(10, 0.9));
+				break;
 			default:
 				showValidUsage();
 				return;

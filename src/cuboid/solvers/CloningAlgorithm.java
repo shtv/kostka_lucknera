@@ -3,6 +3,7 @@ package cuboid.solvers;
 import java.util.ArrayList;
 import java.util.List;
 
+import cuboid.base.Block;
 import cuboid.base.BlockCollection;
 import cuboid.base.Solution;
 
@@ -180,13 +181,13 @@ public class CloningAlgorithm implements SolutionFinder {
 		List<BlockCollection> usedBlockCollections = new ArrayList<BlockCollection>();
 
 		for(Proportion proportion:proportions){
-			usedBlockCollections.add(new BlockCollection(proportion.getBlockCollection().getBlock(),
+			usedBlockCollections.add(new BlockCollection(new Block(proportion.getBlockCollection().getBlock()),
 						proportion.getUsedAmount()));
 		}
-		System.out.println("1.usedBlockCollections:");
+		System.out.println("11.usedBlockCollections:");
 		for(BlockCollection bc:usedBlockCollections)
 			System.out.println(bc);
-		System.out.println("1.usedBlockCollections: end");
+		System.out.println("11.usedBlockCollections: end");
 
 		Solution solution = algorithm.solve(usedBlockCollections);
 		System.out.println("solution = "+solution);
@@ -230,6 +231,7 @@ public class CloningAlgorithm implements SolutionFinder {
 			if(solution != null && (bestSolution==null ||
 						(solution.compareTo(bestSolution)>0)))
 				bestSolution = solution;
+			System.out.println("best = "+bestSolution);
 
 			if(++i<=limit)
 				generateNextProportions();
