@@ -11,8 +11,9 @@
 	<path id="project.cp">
 		<!--		<pathelement path="${lib}/xml-writer.jar"/> -->
 		<!-- <pathelement path="${lib}/xmlrpc.jar"/> -->
-		<pathelement path="${java.class.path}"/>
 		<pathelement path="${env.CLASSPATH}"/>
+		<pathelement path="${lib}/gluegen-rt.jar"/>
+		<pathelement path="${lib}/jogl.jar"/>
 	</path>
 
 	<pathconvert property="mf.cp" pathsep=" ">
