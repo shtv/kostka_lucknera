@@ -27,7 +27,18 @@ public class Program {
 	static List<BlockCollection> blockCollections;
 
 	static void showValidUsage(){
-		System.out.println("Valid usage:\njava -jar kostka2010.jar input output nr viz\n\nwhere:\n input - block set file\n output - solution file\n nr - algorithm number (1 - exact, 2 - aproximation, 3 - cloning)\n viz - visualization (on when viz = 1)");
+		System.out.println("Valid usage:\n"+
+			"java -jar kostka2010.jar input output viz nr [param1] [param2]\n\n"+
+			"where:\n"+
+			" input - block set file\n"+
+			" output - solution file\n"+
+			" viz - visualization (on when viz = 1)\n"+
+			" nr - algorithm number (1 - exact, 2 - aproximation, 3 - cloning)\n"+
+			" [param1] - parameter only for:\n"+
+			"    aproxmiation (param1 >= 1)"+
+			"    cloning (param1>=1)\n"+
+			" [param2] - parameter only for:\n"+
+			"    cloning (0<param2<1)\n");
 	}
 
 	static void readFile(String filename){
@@ -124,11 +135,15 @@ public class Program {
 	}
 
 	public static void main(String[] args){
-		if(args.length!=4){
+		if((args.length>6 || args.length<4) ||
+			(args[3].equals("1") && args.length!=4) ||
+			(args[3].equals("2") && args.length>5))
+		{
 			System.err.println("Wrong usage!\n");
 			showValidUsage();
 			return;
 		}
+
 		readFile(args[0]);
 		System.out.println("Read: OK.");
 
@@ -137,20 +152,36 @@ public class Program {
 		// do usunięcia!
 		saveToFile(new Solution(),args[1]);
 
-		switch(Integer.parseInt(args[2])){
+		int param=20;
+
+		if(args.length==5) 
+			param=Integer.parseInt(args[4]);
+		if(param<0) param=-param;
+
+		int param1=5;
+		double param2=0.9;
+
+		if(args.length==5)
+			param1=Integer.parseInt(args[4]);
+		if(param1<0) param1=-param1;
+		if(args.length==6)
+			param2=Double.parseDouble(args[5]);
+
+		switch(Integer.parseInt(args[3])){
 			case 1:
 				algorithm.add(new ExactSolutionFinder());
 				break;
 			case 2:
-				algorithm.add(new AproximationAlgorithm(20));
+				algorithm.add(new AproximationAlgorithm(param));
 				break;
 			case 3:
-				algorithm.add(new CloningAlgorithm(1,0.9));
+				algorithm.add(new CloningAlgorithm(param1,param2));
 				break;
 			case 4:
 				algorithm.add(new ExactSolutionFinder());
-				algorithm.add(new AproximationAlgorithm(20));
-				algorithm.add(new CloningAlgorithm(10, 0.9));
+
+				algorithm.add(new AproximationAlgorithm(param));
+				algorithm.add(new CloningAlgorithm(param1,param2));
 			default:
 				showValidUsage();
 				return;
@@ -170,7 +201,7 @@ public class Program {
 			if(solution!=null)
 			{
 				System.out.println("SOLUTION VOLUME: "+solution.getVolume());
-				if(args[3].equals("1"))
+				if(args[2].equals("1"))
 					(new VisualisationWindow(solution)).setVisible(true);
 			}
 			else
