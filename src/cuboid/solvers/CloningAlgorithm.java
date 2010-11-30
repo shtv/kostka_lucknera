@@ -100,7 +100,7 @@ public class CloningAlgorithm implements SolutionFinder {
 	{
 		this.limit = limit;
 		this.usedLimit = usedLimit;
-		System.out.println("cloningAlgo with: limit = "+limit+", usedLimit = "+usedLimit);
+//		System.out.println("cloningAlgo with: limit = "+limit+", usedLimit = "+usedLimit);
 		proportions = new ArrayList<Proportion>();
 	}
 
@@ -124,9 +124,9 @@ public class CloningAlgorithm implements SolutionFinder {
 			if(blockCollection.getAmount()>1)
 				proportions.add(new Proportion(blockCollection,1));
 
-		System.out.println("before compute");
+//		System.out.println("before compute");
 		computeCopiesNumber();
-		System.out.println("afrer compute");
+//		System.out.println("afrer compute");
 	}
 
 	void increaseProportions(){
@@ -174,14 +174,16 @@ public class CloningAlgorithm implements SolutionFinder {
 		if(originSolution == null)
 			return null;
 
-		System.out.println("1.originSolution = "+originSolution);
+//		System.out.println("1.originSolution = "+originSolution);
 		originSolution.clone(blockCollections,copiesNumber,lengthLimit);
-		System.out.println("2.originSolution = "+originSolution);
+//		System.out.println("2.originSolution = "+originSolution);
 
-		System.out.println("3.usedBlockCollections:");
+//		System.out.println("3.usedBlockCollections:");
+		/*
 		for(BlockCollection bc:blockCollections)
 			System.out.println(bc);
 		System.out.println("3.usedBlockCollections: end");
+		*/
 
 		return originSolution;
 	}
@@ -193,18 +195,22 @@ public class CloningAlgorithm implements SolutionFinder {
 			usedBlockCollections.add(new BlockCollection(new Block(proportion.getBlockCollection().getBlock()),
 						proportion.getUsedAmount()));
 		}
-		System.out.println("11.usedBlockCollections:");
+//		System.out.println("11.usedBlockCollections:");
+		/*
 		for(BlockCollection bc:usedBlockCollections)
 			System.out.println(bc);
-		System.out.println("11.usedBlockCollections: end");
+			*/
+//		System.out.println("11.usedBlockCollections: end");
 
 		Solution solution = algorithm.solve(usedBlockCollections);
-		System.out.println("solution = "+solution);
+//		System.out.println("solution = "+solution);
 
-		System.out.println("2.usedBlockCollections:");
+//		System.out.println("2.usedBlockCollections:");
+		/*
 		for(BlockCollection bc:usedBlockCollections)
 			System.out.println(bc);
-		System.out.println("2.usedBlockCollections: end");
+			*/
+//		System.out.println("2.usedBlockCollections: end");
 
 		return cloneSolution(blockCollections,solution);
 	}
@@ -224,24 +230,26 @@ public class CloningAlgorithm implements SolutionFinder {
 
 	public Solution solve(List<BlockCollection> blockCollections) {
 		findLengthLimit(blockCollections);
-		System.out.println("lenLim = "+lengthLimit);
+//		System.out.println("lenLim = "+lengthLimit);
 		generateFirstProportions(blockCollections);
 
-		System.out.println("first proportions number = "+proportions.size());
+//		System.out.println("first proportions number = "+proportions.size());
 		if(proportions.isEmpty()) return null;
 
 		Solution bestSolution = null; 
 		SolutionFinder algorithm = new ExactSolutionFinder();
 		int i = 1;
 		do{
-			System.out.println("Let's see generated proportions:");
+//			System.out.println("Let's see generated proportions:");
+			/*
 			for(Proportion proportion:proportions)
 				System.out.println("proportion: "+proportion);
+				*/
 			Solution solution = findSolution(blockCollections,algorithm);
 			if(solution != null && (bestSolution==null ||
 						(solution.compareTo(bestSolution)>0)))
 				bestSolution = solution;
-			System.out.println("best = "+bestSolution);
+//			System.out.println("best = "+bestSolution);
 
 			if(++i<=limit)
 				generateNextProportions();

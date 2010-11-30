@@ -41,7 +41,7 @@ public class Program {
 			"    cloning (0<param2<1)\n");
 	}
 
-	static void readFile(String filename){
+	static void readFromFile(String filename){
 		File file = new File(filename);
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		try{
@@ -80,7 +80,7 @@ public class Program {
 					if(!"block".equals(node.getNodeName()) || node.getAttributes().getLength()!=2
 							|| !node.getAttributes().item(0).getNodeName().equals("amount")
 							|| !node.getAttributes().item(1).getNodeName().equals("structure")){
-						System.out.println("attr. = "+node.getAttributes().item(0).getNodeName());
+//						System.out.println("attr. = "+node.getAttributes().item(0).getNodeName());
 						throw new BlockSetFormatException("First attribute of block must be amount and second one must be structure.");
 					}else{
 						int amount = Integer.parseInt(node.getAttributes().item(0).getNodeValue());
@@ -144,8 +144,8 @@ public class Program {
 			return;
 		}
 
-		readFile(args[0]);
-		System.out.println("Read: OK.");
+		readFromFile(args[0]);
+//		System.out.println("Read: OK.");
 
 		List<SolutionFinder> algorithm=new LinkedList<SolutionFinder>();
 
@@ -193,9 +193,11 @@ public class Program {
 			System.out.println();
 			System.out.println(s);
 			System.out.println("---------------------------");
+			/*
 			for(BlockCollection bc:blockCollections)
 				System.out.println(bc);
 			System.out.println("---------------------------");
+			*/
 			long start=System.currentTimeMillis();
 			Solution solution = s.solve(blockCollections);
 			long end=System.currentTimeMillis();
@@ -206,7 +208,7 @@ public class Program {
 				if(args[2].equals("1"))
 					(new VisualisationWindow(solution)).setVisible(true);
 
-				System.out.println("solution = "+solution);
+//				System.out.println("solution = "+solution);
 			}
 			else
 				System.out.println("COULDN'T FIND SOLUTION");
