@@ -142,14 +142,14 @@ public class Program {
 				algorithm.add(new ExactSolutionFinder());
 				break;
 			case 2:
-				algorithm.add(new AproximationAlgorithm());
+				algorithm.add(new AproximationAlgorithm(20));
 				break;
 			case 3:
 				algorithm.add(new CloningAlgorithm(1,0.9));
 				break;
 			case 4:
 				algorithm.add(new ExactSolutionFinder());
-				algorithm.add(new AproximationAlgorithm());
+				algorithm.add(new AproximationAlgorithm(20));
 				algorithm.add(new CloningAlgorithm(10, 0.9));
 			default:
 				showValidUsage();

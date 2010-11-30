@@ -1,22 +1,28 @@
 package cuboid.solvers;
 
+import java.sql.NClob;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
+import cuboid.base.Block;
 import cuboid.base.BlockCollection;
 import cuboid.base.Solution;
 import cuboid.base.Vector3D;
 import cuboid.solvers.ExactSolutionFinder.ListElement;
+import cuboid.solvers.ExactSolutionFinder.NextFitHelpClass;
 
 public class AproximationAlgorithm extends ExactSolutionFinder {
 
+	private final int C;
+	
 	private class ChoosenFits
 	{
-		public static final int C=3;
 		private int[] oidx;
 		private Vector3D[] fit;
 		private float[] score;
+		private NextFitHelpClass[] nfhc;
+		
 		private int currentFit;
 		
 		public ChoosenFits()
@@ -24,6 +30,7 @@ public class AproximationAlgorithm extends ExactSolutionFinder {
 			this.oidx=new int[C];
 			this.fit=new Vector3D[C];
 			this.score=new float[C];
+			this.nfhc=new NextFitHelpClass[C];
 			for(int i=0;i<this.score.length;i++)
 				this.score[i]=-1;
 			this.currentFit=-1;
@@ -69,18 +76,35 @@ public class AproximationAlgorithm extends ExactSolutionFinder {
 			return fit[currentFit];
 		}
 		
-		public boolean nextFit()
+		public NextFitHelpClass getCurrentNfhc()
+		{
+			if(this.nfhc[currentFit]==null)
+				System.out.println("WTF");
+			return this.nfhc[currentFit];
+		}
+		
+ 		public boolean nextFit()
 		{
 			currentFit++;
-			return currentFit<C;
+			return currentFit<C && nfhc[currentFit]!=null && fit[currentFit]!=null;
+		}
+		
+
+		public void setNfhc(int i, NextFitHelpClass nfhc) {
+			this.nfhc[i] = nfhc;
+		}
+
+		public NextFitHelpClass getNfhc(int i) {
+			return nfhc[i];
 		}
 	}
 	
 	private List<ChoosenFits> choosenFits;
 	
-	public AproximationAlgorithm()
+	public AproximationAlgorithm(int C)
 	{
 		super();
+		this.C=C;
 		choosenFits=new LinkedList<ChoosenFits>();
 	}
 	
@@ -132,12 +156,13 @@ public class AproximationAlgorithm extends ExactSolutionFinder {
 			while(nextFit(idx, ce))
 			{
 				float score=fitnessScore(idx);
-				for(int i=0;i<cf.C;i++)
+				for(int i=0;i<C;i++)
 					if(score>cf.getScore(i))
 					{
 						cf.setFit(i, ce.getFit().clone());
 						cf.setOidx(i, ce.getOidx());
 						cf.setScore(i,score);
+						cf.setNfhc(i,nfhc[idx].clone());
 						break;
 					}
 			}
@@ -155,8 +180,12 @@ public class AproximationAlgorithm extends ExactSolutionFinder {
 		int idx=choosenFits.size()-1;
 		ChoosenFits cf=choosenFits.get(idx);
 		boolean result=cf.nextFit();
-		blocks.get(idx).setFit(cf.getCurrentFit());
-		blocks.get(idx).setOidx(cf.getCurrentOidx());
+		if(result)
+		{
+			blocks.get(idx).setFit(cf.getCurrentFit());
+			blocks.get(idx).setOidx(cf.getCurrentOidx());
+			nfhc[idx]=cf.getCurrentNfhc();
+		}
 		return result;
 	}
 	
@@ -184,6 +213,8 @@ public class AproximationAlgorithm extends ExactSolutionFinder {
 			}
 			if(checkSequence(q.previousIndex()))
 			{
+				if(maxSolutionFound)
+					break;
 				q.previous();
 				continue;
 			}
@@ -204,6 +235,7 @@ public class AproximationAlgorithm extends ExactSolutionFinder {
 				continue;
 			}		
 		}
+		choosenFits=new LinkedList<ChoosenFits>();
 	}
 	
 	public String toString()

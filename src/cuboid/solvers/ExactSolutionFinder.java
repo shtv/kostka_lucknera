@@ -22,6 +22,36 @@ public class ExactSolutionFinder implements SolutionFinder
 			public int minJ, maxJ;
 			public int[][] bp;
 			public int[][] bbp;
+			
+			public NextFitHelpClass clone()
+			{
+				NextFitHelpClass result=new NextFitHelpClass();
+				
+				if(buildBlock==null) result.buildBlock=null;
+				else result.buildBlock=new Block(this.buildBlock);
+				
+				if(this.block==null) result.block=null;
+				else result.block = new Block(this.block);
+				
+				if(this.fit==null) result.fit=null;
+				else result.fit=this.fit.clone();
+				
+				if(this.w==null) result.w=null;
+				else result.w = this.w.clone();
+				
+				result.currentDirection=this.currentDirection;
+				result.minI=this.minI;
+				result.maxI=this.maxI;
+				result.minJ=this.minJ;
+				result.maxJ=this.maxJ;
+				
+				if(this.bp==null) result.bp=null;
+				else result.bp=this.bp.clone();
+				
+				if(this.bbp==null) result.bbp=null;
+				else result.bbp=this.bbp.clone();
+				return result;
+			}
 		}
 	
 		protected class ListElement
@@ -660,10 +690,10 @@ public class ExactSolutionFinder implements SolutionFinder
 //				Collections.swap(blocks, 1, 3);
 //				//blocks.remove(blocks.size()-1);
 //				//
-//				System.out.print("PERM: ");
-//				for(int i=0;i<blocks.size();i++)
-//					System.out.print(blocks.get(i).getN()+" ");
-//				System.out.println();
+				System.out.print("PERM: ");
+				for(int i=0;i<blocks.size();i++)
+					System.out.print(blocks.get(i).getN()+" ");
+				System.out.println();
 				checkPerm();
 				if(maxSolutionFound)
 					break;
